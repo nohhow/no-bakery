@@ -23,3 +23,17 @@ footer{
   background-color: black;
   opacity: 0.75;
 }
+
+/* InfoPage */
+@media (max-width: 768px) {
+  #info_section {
+    padding: 7% 5%;
+    margin-top: 56px;
+  }
+}
+@media (min-width: 769px) {
+  #info_section {
+    padding: 7% 10%;
+    margin-top: 56px;
+  }
+}
