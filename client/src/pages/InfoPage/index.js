@@ -1,17 +1,44 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 // images
 import bread from "../../images/bread/set.jpg";
 import forYou from "../../images/foryou.jpg";
 import brownieBanner from "../../images/dessert/brownie_banner.jpg";
 import madeleine from "../../images/bread/madeleine.jpg";
-import muffin from "../../images/bread/muffin.jpg"
-import poundCake from "../../images/bread/pound-cake.jpg"
+import muffin from "../../images/bread/muffin.jpg";
+import poundCake from "../../images/bread/pound-cake.jpg";
 import brownie from "../../images/dessert/brownie.jpg";
-import cookie from "../../images/dessert/cookie.jpg"
-import smore from "../../images/dessert/smore.jpg"
+import cookie from "../../images/dessert/cookie.jpg";
+import smore from "../../images/dessert/smore.jpg";
 
 function InfoPage() {
+  const products = [
+    {
+      name: "마들렌",
+      img: `${madeleine}`,
+    },
+    {
+      name: "머핀",
+      img: `${muffin}`,
+    },
+    {
+      name: "파운드케이크",
+      img: `${poundCake}`,
+    },
+    {
+      name: "브라우니",
+      img: `${brownie}`,
+    },
+    {
+      name: "쿠키",
+      img: `${cookie}`,
+    },
+    {
+      name: "스모어 쿠키",
+      img: `${smore}`,
+    },
+  ];
+
   return (
     <div>
       <section id="info_section" className="text-center">
@@ -115,16 +142,18 @@ function InfoPage() {
           <h1 className="text-center py-5">제품 목록</h1>
           <Container>
             <Row>
-              <Col className="product-container" sm={4}><img src={madeleine} alt="마들렌" width="100%"/>마들렌</Col>
-              <Col sm={4}><img src={poundCake} alt="파운드 케이크" width="100%"/>파운드 케이크</Col>
-              <Col sm={4}><img src={muffin} alt="머핀"  width="100%"/>머핀</Col>
-            </Row>
-          </Container>
-          <Container>
-            <Row>
-              <Col sm={4}><img src={cookie} alt="쿠키" width="100%"/>쿠키</Col>
-              <Col sm={4}><img src={smore} alt="스모어 쿠키" width="100%"/>스모어 쿠키</Col>
-              <Col sm={4}><img src={brownie} alt="브라우니" width="100%"/>브라우니</Col>
+              {products.map((data, index) => {
+                return (
+                  <Col sm={12} md={6} lg={4} key={index} className="py-3">
+                    <Card>
+                      <div className="card-img-container">
+                        <Card.Img variant="top" src={data.img} alt={data.name} />
+                      </div>
+                      <Card.Body>{data.name}</Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
             </Row>
           </Container>
         </article>
