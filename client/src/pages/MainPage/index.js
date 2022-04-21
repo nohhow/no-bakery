@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <div>
       <section>
-        <Carousel pause="false" interval="3000" controls="false">
+        <Carousel pause="false" interval="3000" controls="" fade="true">
           <Carousel.Item>
             <img
               className=" d-block banner-img mx-auto"

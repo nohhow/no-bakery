@@ -14,7 +14,7 @@ function HeaderNav() {
             variant="light"
           >
             <Navbar.Brand color="dark">
-              <Link to="/">
+              <Link className="navbar-light navbar-nav nav-brand" to="/">
                 <strong>NO BAKERY</strong>
               </Link>
             </Navbar.Brand>

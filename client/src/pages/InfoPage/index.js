@@ -1,15 +1,133 @@
 import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+// images
+import bread from "../../images/bread/set.jpg";
+import forYou from "../../images/foryou.jpg";
+import brownieBanner from "../../images/dessert/brownie_banner.jpg";
+import madeleine from "../../images/bread/madeleine.jpg";
+import muffin from "../../images/bread/muffin.jpg"
+import poundCake from "../../images/bread/pound-cake.jpg"
+import brownie from "../../images/dessert/brownie.jpg";
+import cookie from "../../images/dessert/cookie.jpg"
+import smore from "../../images/dessert/smore.jpg"
 
 function InfoPage() {
   return (
     <div>
-      <section id = "info_section">
-        <h1>짧은 경력, 짧지 않은 여운</h1>
-        <p>
-          베이킹을 시작한지 오래되지 않았지만 사랑으로 빵을 만들고 있습니다.<br/> 한 번이라도 <strong>노 베이커리</strong>의 빵 맛을 본다면 긴 여운을 느끼실 수 있습니다.
-        </p>
-        <h1>누구나 맛볼 수 없는 스페셜 에디션</h1>
-        <p>노 베이커리는 매일 빵을 만드는 것이 아니라, 주문이 들어오면 배송 날짜에 맞춰서 작업을 시작하고 <strong>최고의 상태</strong>로 고객님께 전달됩니다. <br/>또한 특별한 사람들만 주문할 수 있도록 안내를 도와드리고 있습니다.</p>
+      <section id="info_section" className="text-center">
+        <header id="info_header">
+          <div className="ab-text">
+            <h1> NO BAKERY</h1>
+            <h3>Bread & Dessert</h3>
+            <p>
+              오직 당신만을 위한 레시피로 만들어진 빵과 디저트를 경험해보세요.
+            </p>
+          </div>
+          <img
+            className="opacity-75"
+            src={brownieBanner}
+            alt="Brownie"
+            width="70%"
+          />
+        </header>
+        <article className="text-start p-5">
+          <h1 className="text-center py-5">노 베이커리에 대해서</h1>
+          <Container className="p-5 border rounded-3">
+            <Row>
+              <Col sm={6} className="pb-5">
+                <div className="history">
+                  <div>
+                    <h3>2022.02</h3>
+                    <ol>
+                      <li>
+                        <strong>첫 베이킹 도전</strong> - 플레인 쿠키, 초코 쿠키
+                      </li>
+                      <li>스모어 쿠키</li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h3>2022.03</h3>
+                    <ol>
+                      <li>플레인 머핀, 초코 머핀</li>
+                      <li>브라우니</li>
+                      <li>꿀마들렌</li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h3>2022.04</h3>
+                    <ol>
+                      <li>파운드 케이크</li>
+                      <li>레몬 마들렌</li>
+                    </ol>
+                  </div>
+                </div>
+              </Col>
+              <Col sm={6} className="text-end">
+                <div>
+                  <h1>짧은 경력, 오래 가는 여운</h1>
+                  <p className="pt-3">
+                    베이킹을 시작한지 오래되지 않았지만 사랑으로 빵을 만들고
+                    있습니다.
+                    <br /> 한 번이라도 <strong>노 베이커리</strong>의 빵 맛을
+                    본다면 긴 여운을 느끼실 수 있습니다.
+                  </p>
+                  <img
+                    className="rounded-3 opacity-100 hover-opacity"
+                    src={bread}
+                    width="50%"
+                    alt="breadImage"
+                  />
+                </div>
+              </Col>
+            </Row>
+          </Container>
+
+          <Container className="p-5 my-5 border rounded-3">
+            <Row>
+              <Col sm={6} className="pb-5">
+                <div>
+                  <h1>누구나 맛볼 수 없는 특별함</h1>
+                  <p className="pt-3">
+                    노 베이커리는 특별한 분들만 주문할 수 있도록 안내해드리고
+                    있습니다.
+                    <br />
+                    <br />
+                    매일 빵을 만드는 것이 아니라, 주문이 들어오면 배송 날짜에
+                    맞춰서 작업을 시작하고 <strong>최고의 상태</strong>로
+                    고객님께 전달됩니다.
+                  </p>
+                </div>
+              </Col>
+              <Col sm={6} className="text-end">
+                <img
+                  className="rounded-3 opacity-100 hover-opacity"
+                  src={forYou}
+                  width="50%"
+                  alt="forYou"
+                />
+              </Col>
+            </Row>
+          </Container>
+        </article>
+        <article>
+          <h1 className="text-center py-5">제품 목록</h1>
+          <Container>
+            <Row>
+              <Col className="product-container" sm={4}><img src={madeleine} alt="마들렌" width="100%"/>마들렌</Col>
+              <Col sm={4}><img src={poundCake} alt="파운드 케이크" width="100%"/>파운드 케이크</Col>
+              <Col sm={4}><img src={muffin} alt="머핀"  width="100%"/>머핀</Col>
+            </Row>
+          </Container>
+          <Container>
+            <Row>
+              <Col sm={4}><img src={cookie} alt="쿠키" width="100%"/>쿠키</Col>
+              <Col sm={4}><img src={smore} alt="스모어 쿠키" width="100%"/>스모어 쿠키</Col>
+              <Col sm={4}><img src={brownie} alt="브라우니" width="100%"/>브라우니</Col>
+            </Row>
+          </Container>
+        </article>
       </section>
     </div>
   );
