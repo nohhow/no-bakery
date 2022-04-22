@@ -9,8 +9,6 @@ import americano from "../images/beverage/americano.jpg";
 import sangria from "../images/beverage/sangria.jpg";
 import milktea from "../images/beverage/milktea.jpg";
 
-
-
 export const useTodayPick = () => {
   const [todayPick, setTodayPick] = useState({});
   const [todayPick2, setTodayPick2] = useState({});
@@ -55,7 +53,6 @@ export const useTodayPick = () => {
         name:"밀크티",
         img: `${milktea}`
     }
-
   ];
 
   useEffect(() => {

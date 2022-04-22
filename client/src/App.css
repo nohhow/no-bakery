@@ -98,13 +98,13 @@ footer{
 /* OrderPage */
 @media (max-width: 768px) {
   #order_section {
-    padding: 0 7% 5%;
+    padding: 7% 5%;
     margin-top: 56px;
   }
 }
 @media (min-width: 769px) {
   #order_section {
-    padding: 0 7% 10%;
+    padding: 7% 10%;
     margin-top: 56px;
   }
 }
