@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
 import InfoPage from "./pages/InfoPage";
 import MainPage from "./pages/MainPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   const callApi = async () => {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />}></Route>
           <Route path="info" element={<InfoPage />}></Route>
+          <Route path="order" element={<OrderPage />}></Route>
         </Route>
       </Routes>
     </div>

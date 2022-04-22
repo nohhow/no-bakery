@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function HeaderNav() {
+  const [currentTabId, setCurrentTabId] = useState("");
+  const aboutTab = useRef();
+  const orderTab = useRef();
+
   return (
     <div>
       <header>
@@ -22,12 +26,22 @@ function HeaderNav() {
             <Navbar.Collapse id="navbar-collapse-id">
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Link className="navbar-light navbar-nav nav-link" to="/info">
+                  <Link
+                    className="navbar-light navbar-nav nav-link"
+                    ref={aboutTab}
+                    to="/info"
+                  >
                     🍞 노 베이커리에 대해서
                   </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                  <Nav.Link href="#">📦 주문하기</Nav.Link>
+                  <Link
+                    className="navbar-light navbar-nav nav-link"
+                    ref={orderTab}
+                    to="/order"
+                  >
+                    📦 주문하기
+                  </Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>

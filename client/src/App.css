@@ -90,10 +90,41 @@ footer{
   box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.5);
 }
 
-
-
 .card-img-container{
   height: 17rem;
   overflow: hidden;
 }
 
+/* OrderPage */
+@media (max-width: 768px) {
+  #order_section {
+    padding: 0 7% 5%;
+    margin-top: 56px;
+  }
+}
+@media (min-width: 769px) {
+  #order_section {
+    padding: 0 7% 10%;
+    margin-top: 56px;
+  }
+}
+
+/* MainPage */
+@media (max-width: 768px) {
+  #main_section {
+    padding: 7% 5%;
+  }
+}
+@media (min-width: 769px) {
+  #main_section {
+    padding: 7% 10%;
+  }
+}
+
+.box {
+  margin-bottom: 5rem;
+  padding: 20px;
+  line-height: 1.8;
+  border: 1px solid #ebebeb;
+  background-color: #f8f9fa;
+}
