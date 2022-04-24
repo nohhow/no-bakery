@@ -10,26 +10,32 @@ function Products() {
         {
           name: "마들렌",
           img: `${madeleine}`,
+          category: "dessert",
         },
         {
           name: "머핀",
           img: `${muffin}`,
+          category:"bread",
         },
         {
           name: "파운드케이크",
           img: `${poundCake}`,
+          category:"bread",
         },
         {
           name: "브라우니",
           img: `${brownie}`,
+          category: "dessert",
         },
         {
           name: "쿠키",
           img: `${cookie}`,
+          category: "dessert",
         },
         {
           name: "스모어 쿠키",
           img: `${smore}`,
+          category: "dessert",
         },
       ];
     
