@@ -19,22 +19,22 @@ function OrderPage() {
         <hr />
         <Nav as="ul" variant="pills">
           <Nav.Item as="li">
-            <Nav.Link id="total" onClick={(e) => handleTabClick(e.target)}>
+            <Nav.Link id="total" className={nowTab==="total" ? "active" : ""} onClick={(e) => handleTabClick(e.target)}>
               전체
             </Nav.Link>
           </Nav.Item>
           <Nav.Item as="li">
-            <Nav.Link id="bread" onClick={(e) => handleTabClick(e.target)}>
+            <Nav.Link id="bread" className={nowTab==="bread" ? "active" : ""} onClick={(e) => handleTabClick(e.target)}>
               빵
             </Nav.Link>
           </Nav.Item>
           <Nav.Item as="li">
-            <Nav.Link id="dessert" onClick={(e) => handleTabClick(e.target)}>
+            <Nav.Link id="dessert" className={nowTab==="dessert" ? "active" : ""} onClick={(e) => handleTabClick(e.target)}>
               디저트
             </Nav.Link>
           </Nav.Item>
           <Nav.Item as="li">
-            <Nav.Link id="beverage" onClick={(e) => handleTabClick(e.target)}>
+            <Nav.Link id="beverage" className={nowTab==="beverage" ? "active" : ""} onClick={(e) => handleTabClick(e.target)}>
               음료
             </Nav.Link>
           </Nav.Item>
