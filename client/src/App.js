@@ -5,6 +5,8 @@ import "./App.css";
 import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
 import InfoPage from "./pages/InfoPage";
+import JoinPage from "./pages/JoinPage";
+import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import OrderPage from "./pages/OrderPage";
 
@@ -36,6 +38,8 @@ function App() {
           <Route index element={<MainPage />}></Route>
           <Route path="info" element={<InfoPage />}></Route>
           <Route path="order" element={<OrderPage />}></Route>
+          <Route path="login" element={<LoginPage />}></Route>
+          <Route path="join" element={<JoinPage />}></Route>
         </Route>
       </Routes>
     </div>

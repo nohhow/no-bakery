@@ -42,7 +42,7 @@ function HeaderNav() {
             >
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Nav.Link href="#">👤 로그인</Nav.Link>
+                  <Link className="navbar-light navbar-nav nav-link" to="/login">👤 로그인</Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                   <Nav.Link href="#">

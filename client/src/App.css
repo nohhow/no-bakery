@@ -128,3 +128,21 @@ footer{
   border: 1px solid #ebebeb;
   background-color: #f8f9fa;
 }
+
+/* section, footer 하단 고정 */
+section {min-height: 100vh;}
+footer { position: relative; left: 0; bottom: 0; width: 100%; }
+
+/* LoginPage */
+@media (max-width: 768px) {
+  #login_section {
+    padding: 7% 5%;
+    margin-top: 56px;
+  }
+}
+@media (min-width: 769px) {
+  #login_section {
+    padding: 7% 10%;
+    margin-top: 56px;
+  }
+}
