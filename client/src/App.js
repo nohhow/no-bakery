@@ -4,6 +4,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
+import CartPage from "./pages/CartPage";
 import InfoPage from "./pages/InfoPage";
 import JoinPage from "./pages/JoinPage";
 import LoginPage from "./pages/LoginPage";
@@ -40,6 +41,7 @@ function App() {
           <Route path="order" element={<OrderPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="join" element={<JoinPage />}></Route>
+          <Route path="cart" element={<CartPage/>}></Route>
         </Route>
       </Routes>
     </div>

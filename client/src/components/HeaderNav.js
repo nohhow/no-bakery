@@ -42,12 +42,17 @@ function HeaderNav() {
             >
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Link className="navbar-light navbar-nav nav-link" to="/login">👤 로그인</Link>
+                  <Link
+                    className="navbar-light navbar-nav nav-link"
+                    to="/login"
+                  >
+                    👤 로그인
+                  </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                  <Nav.Link href="#">
-                    🛒 장바구니 <span className="badge bg-dark">4</span>
-                  </Nav.Link>
+                  <Link className="navbar-light navbar-nav nav-link" to="/cart">
+                    🛒 장바구니<span className="badge bg-dark mx-1">0</span>
+                  </Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
