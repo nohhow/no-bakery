@@ -18,9 +18,14 @@ function LoginPage() {
               <Form.Label className="w-25 my-auto">비밀번호</Form.Label>
               <Form.Control type="text" placeholder="password" />
             </Form.Group>
-            <Button variant="dark" className="w-100 mb-3" type="submit">로그인</Button>
-            <Button variant="light" className="w-100 border">
-              <Link to="/join" className="text-decoration-none text-dark">회원가입</Link></Button>
+            <Button variant="dark" className="w-100 mb-3" type="submit">
+              로그인
+            </Button>
+            <Link to="/join" className="text-decoration-none text-dark">
+              <Button variant="light" className="w-100 border">
+                회원가입
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
