@@ -13,7 +13,7 @@ import OrderPage from "./pages/OrderPage";
 
 function App() {
   const callApi = async () => {
-    axios.get("/api").then((res) => {
+    axios.get("/user_inform").then((res) => {
       console.log(res.data.test);
     });
   };
