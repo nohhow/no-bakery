@@ -160,3 +160,17 @@ footer { position: relative; left: 0; bottom: 0; width: 100%; }
     margin-top: 56px;
   }
 }
+
+/* ItemInfo */
+@media (max-width: 768px) {
+  #itemInfo_section {
+    padding: 7% 5%;
+    margin-top: 56px;
+  }
+}
+@media (min-width: 769px) {
+  #itemInfo_section {
+    padding: 7% 10%;
+    margin-top: 56px;
+  }
+}
