@@ -1,43 +1,20 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+
 // images
 import bread from "../../images/bread/set.jpg";
 import forYou from "../../images/foryou.jpg";
 import brownieBanner from "../../images/dessert/brownie_banner.jpg";
-import madeleine from "../../images/bread/madeleine.jpg";
-import muffin from "../../images/bread/muffin.jpg";
-import poundCake from "../../images/bread/pound-cake.jpg";
-import brownie from "../../images/dessert/brownie.jpg";
-import cookie from "../../images/dessert/cookie.jpg";
-import smore from "../../images/dessert/smore.jpg";
+import Products from "../../components/Products";
+import Beverages from "../../components/Beverages";
+import { useNavigate } from "react-router-dom";
 
 function InfoPage() {
-  const products = [
-    {
-      name: "마들렌",
-      img: `${madeleine}`,
-    },
-    {
-      name: "머핀",
-      img: `${muffin}`,
-    },
-    {
-      name: "파운드케이크",
-      img: `${poundCake}`,
-    },
-    {
-      name: "브라우니",
-      img: `${brownie}`,
-    },
-    {
-      name: "쿠키",
-      img: `${cookie}`,
-    },
-    {
-      name: "스모어 쿠키",
-      img: `${smore}`,
-    },
-  ];
+
+  const products = Products()
+  const navigate = useNavigate();
+  
+  products.push.apply(products, Beverages())
 
   return (
     <div>
@@ -146,7 +123,7 @@ function InfoPage() {
                 return (
                   <Col sm={12} md={6} lg={4} key={index} className="py-3">
                     <Card>
-                      <div className="card-img-container">
+                      <div className="card-img-container" onClick={()=>navigate(`/${data.id}`)}>
                         <Card.Img variant="top" src={data.img} alt={data.name} />
                       </div>
                       <Card.Body>{data.name}</Card.Body>
