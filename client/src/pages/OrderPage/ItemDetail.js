@@ -9,15 +9,16 @@ function ItemDetail() {
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(`/user_inform/${itemId}`);
+      console.log(request)
       setItem(request.data);
     }
     fetchData();
   }, [itemId]);
-
+  console.log(`제품정보:${item.id}`)
   if (!item)  return <div>...loading</div>;
   return (
       <section id="itemDetail_section">
-        <h1>제품 : {item.data}</h1>
+        <h1>제품 : {item.id}</h1>
         {/* <img src={item.img} alt="제품사진"/> */}
       </section>
   )

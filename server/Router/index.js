@@ -11,7 +11,7 @@ router.get('/login', (req, res)=>{
 
 router.get('/:itemid', (req, res)=>{
   var itemId = parseInt(req.params.itemid, 10)
-  res.send({data:`${itemId}`})
+  res.send({id:`${itemId}`})
 })
 
 
