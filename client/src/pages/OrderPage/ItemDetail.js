@@ -14,7 +14,9 @@ function ItemDetail() {
     }
     fetchData();
   }, [itemId]);
-  console.log(`제품정보:${item.id}`)
+
+  console.log(item)
+  
   if (!item)  return <div>...loading</div>;
   return (
       <section id="itemDetail_section">
