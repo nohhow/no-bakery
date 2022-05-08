@@ -50,7 +50,7 @@ router.get('/login', (req, res)=>{
 
 router.get('/:itemid', (req, res)=>{
   var itemId = parseInt(req.params.itemid, 10)
-  itemInfo = products.filter((data) => data.id == itemId)[0]
+  itemInfo = products.filter((data) => data.id == itemId)[0] // 예외처리해야함. 데이터 없는 경우에 error 또는 no data 던져줄 수 있도록!
   res.send(itemInfo)
 })
 
