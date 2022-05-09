@@ -35,7 +35,7 @@ function LoginPage() {
         <h2>👤 로그인</h2>
         <hr />
         <div>
-          <div className="w-50 mx-auto">
+          <div id="login_form_container" className="mx-auto">
             <div className="p-2">
               <label htmlFor="input_id" className="text-start w-25">
                 아이디
