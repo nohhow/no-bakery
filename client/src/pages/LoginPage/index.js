@@ -26,7 +26,7 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    getLoginInfo()
+    getLoginInfo();
   }, []);
 
   return (
@@ -36,18 +36,24 @@ function LoginPage() {
         <hr />
         <div>
           <div className="w-50 mx-auto">
-            <div>
-              <label htmlFor="input_id">아이디 </label>
+            <div className="p-2">
+              <label htmlFor="input_id" className="text-start w-25">
+                아이디
+              </label>
               <input
+                className="w-75"
                 type="text"
                 name="input_id"
                 value={inputId}
                 onChange={handleInputId}
               />
             </div>
-            <div>
-              <label htmlFor="input_pw">비밀번호 </label>
+            <div className="p-2 mb-4">
+              <label htmlFor="input_pw" className="text-start w-25">
+                비밀번호
+              </label>
               <input
+                className="w-75"
                 type="password"
                 name="input_pw"
                 value={inputPw}
