@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // images
 import bread from "../../images/bread/set.jpg";
 import forYou from "../../images/foryou.jpg";
 import brownieBanner from "../../images/dessert/brownie_banner.jpg";
-import Products from "../../components/Products";
-import Beverages from "../../components/Beverages";
-import { useNavigate } from "react-router-dom";
 
 function InfoPage() {
 
-  const products = Products()
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      const request = await axios.get(`/user_inform/products`);
+      console.log(request)
+      setProducts(request.data);
+    }
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
   
-  products.push.apply(products, Beverages())
-
   return (
     <div>
       <section id="info_section" className="text-center">
