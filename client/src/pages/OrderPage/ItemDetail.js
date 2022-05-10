@@ -21,7 +21,9 @@ function ItemDetail() {
   return (
       <section id="itemDetail_section">
         <h1>제품 : {item.id}</h1>
-        {/* <img src={item.img} alt="제품사진"/> */}
+        <img className="w-25" src={item.img} alt="제품사진"/>
+        <p>{item.name}</p>
+        
       </section>
   )
 }

@@ -30,52 +30,46 @@ function LoginPage() {
   }, []);
 
   return (
-    <div>
-      <section id="login_section">
-        <h2>👤 로그인</h2>
-        <hr />
-        <div>
-          <div id="login_form_container" className="mx-auto">
-            <div className="p-2">
-              <label htmlFor="input_id" className="text-start w-25">
-                아이디
-              </label>
-              <input
-                className="w-75"
-                type="text"
-                name="input_id"
-                value={inputId}
-                onChange={handleInputId}
-              />
-            </div>
-            <div className="p-2 mb-4">
-              <label htmlFor="input_pw" className="text-start w-25">
-                비밀번호
-              </label>
-              <input
-                className="w-75"
-                type="password"
-                name="input_pw"
-                value={inputPw}
-                onChange={handleInputPw}
-              />
-            </div>
-            <Button
-              variant="dark"
-              className="w-100 mb-3"
-              onClick={onClickLogin}
-            >
-              로그인
-            </Button>
-            <Link to="/join" className="text-decoration-none text-dark">
-              <Button variant="light" className="w-100 border">
-                회원가입
-              </Button>
-            </Link>
+    <main id="login_section">
+      <h2>👤 로그인</h2>
+      <hr />
+      <div>
+        <div id="login_form_container" className="mx-auto">
+          <div className="p-2">
+            <label htmlFor="input_id" className="text-start w-25">
+              아이디
+            </label>
+            <input
+              className="w-75"
+              type="text"
+              name="input_id"
+              value={inputId}
+              onChange={handleInputId}
+            />
           </div>
+          <div className="p-2 mb-4">
+            <label htmlFor="input_pw" className="text-start w-25">
+              비밀번호
+            </label>
+            <input
+              className="w-75"
+              type="password"
+              name="input_pw"
+              value={inputPw}
+              onChange={handleInputPw}
+            />
+          </div>
+          <Button variant="dark" className="w-100 mb-3" onClick={onClickLogin}>
+            로그인
+          </Button>
+          <Link to="/join" className="text-decoration-none text-dark">
+            <Button variant="light" className="w-100 border">
+              회원가입
+            </Button>
+          </Link>
         </div>
-      </section>
-    </div>
+      </div>
+    </main>
   );
 }
 
