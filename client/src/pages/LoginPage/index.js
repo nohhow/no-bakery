@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import KaKaoLogin from "react-kakao-login";
 
 function LoginPage() {
   const [inputId, setinputId] = useState("");
   const [inputPw, setinputPw] = useState("");
-
+  const [profileImg, setProfileImg] = useState("")
   const handleInputId = (e) => {
     setinputId(e.target.value);
   };
@@ -29,11 +30,22 @@ function LoginPage() {
     getLoginInfo();
   }, []);
 
+  const onSuccess = (res) =>{
+    console.log(res.profile.properties)
+    setProfileImg(res.profile.properties.profile_image)
+  }
   return (
     <main id="login_section">
       <h2>👤 로그인</h2>
       <hr />
       <div>
+        <img src={profileImg} alt="profileImg"/>
+        <KaKaoLogin
+          token={process.env.REACT_APP_KAKAO_API}
+          onSuccess={result => onSuccess(result)}
+          onFail={console.error}
+          onLogout={console.info}
+        />
         <div id="login_form_container" className="mx-auto">
           <div className="p-2">
             <label htmlFor="input_id" className="text-start w-25">
