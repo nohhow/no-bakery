@@ -12,12 +12,12 @@ function InfoPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(`/user_inform/products`);
+    async function getProductsData() {
+      const request = await axios.get(`/info/products`);
       console.log(request);
-      setProducts(request.data);
+      setProducts(request.data.db)
     }
-    fetchData();
+    getProductsData();
   }, []);
 
   const navigate = useNavigate();

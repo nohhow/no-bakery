@@ -10,9 +10,9 @@ function ItemDetail() {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(`/user_inform/${itemId}`);
-      console.log(request);
-      setItem(request.data);
+      const request = await axios.get(`/info/${itemId}`);
+      console.log(request.data.db);
+      setItem(request.data.db[0]);
     }
     fetchData();
   }, [itemId]);

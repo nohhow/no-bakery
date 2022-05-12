@@ -8,5 +8,10 @@
     "start": "node server.js"
   },
   "author": "Jinhyun Noh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "mysql": "^2.18.1"
+  }
 }

@@ -22,7 +22,7 @@ function HeaderNav() {
             <Navbar.Collapse id="navbar-collapse-id">
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Link className="navbar-light navbar-nav nav-link" to="/info">
+                  <Link className="navbar-light navbar-nav nav-link" to="/about">
                     🍞 노 베이커리에 대해서
                   </Link>
                 </Nav.Item>
