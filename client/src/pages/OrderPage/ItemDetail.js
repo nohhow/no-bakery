@@ -43,7 +43,7 @@ function ItemDetail() {
             <p className="text-muted">
               <small>{item.sub}</small>
             </p>
-            <p><span className="font-3">1 </span><span className="font-2">❤️</span></p>
+            <p><span className="font-1 text-muted">개당 </span><span className="font-3">1 </span><span className="font-2">❤️</span></p>
             <button type="button" className="qnt-btn btn-l" onClick={()=>{handleClickQntBtn(-1)}}>
               -
             </button>
@@ -58,6 +58,7 @@ function ItemDetail() {
             <button type="button" className="qnt-btn btn-r" onClick={()=>{handleClickQntBtn(+1)}}>
               +
             </button>
+            <span className="text-muted m-3"><small>최대 5개</small></span>
           </div>
 
           <Button className="mt-5" size="lg" variant="dark" onClick={() => console.log("Primary")}>

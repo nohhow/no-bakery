@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 const Profile = () => {
   const [user_id, setUserId] = useState();
   const [nickName, setNickName] = useState();
@@ -21,11 +24,22 @@ const Profile = () => {
     getProfile();
   }, []);
   return (
-    <div>
-      <h2>{user_id}</h2>
-      <h2>{nickName}</h2>
-      <img src={profileImage} alt="profileImg"></img>
-    </div>
+    <main id="profile_section">
+      <section className="text-center">
+        <h2>{nickName}님, 반가워요👋</h2>
+        <img
+          className="w-50 rounded my-3"
+          src={profileImage}
+          alt="profileImg"
+        ></img>
+        <p>바로 주문하러 가실래요?</p>
+        <Link to="/order">
+          <Button variant="dark" onClick={() => console.log("Dark")}>
+            주문하기
+          </Button>
+        </Link>
+      </section>
+    </main>
   );
 };
 export default Profile;
