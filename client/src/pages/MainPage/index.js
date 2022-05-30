@@ -1,12 +1,43 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Carousel, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useTodayPick } from "../../hooks/useTodayPick";
 import banner1 from "../../images/banner/banner1.png";
 import banner2 from "../../images/banner/banner2.png";
+import plusImg from "../../images/plus.png";
 
 const MainPage = () => {
-  const picks = useTodayPick();
+  const [todayPick, setTodayPick] = useState([
+    { name: "...loading", img: `https://nohhow.github.io/assets/img/me/logo.png` },
+    { name: "...loading", img: `https://nohhow.github.io/assets/img/me/logo.png` },
+  ]);
+
+  useEffect(() => {
+    let foods = [];
+    let beverages = [];
+
+    async function getProductsData() {
+      const request = await axios.get(`/info/products`);
+      const products = request.data.db;
+
+      for (let x in products) {
+        if (products[x].id > 100) {
+          beverages.push(products[x]);
+        } else {
+          foods.push(products[x]);
+        }
+      }
+
+      const randomValue = Math.floor(Math.random() * foods.length);
+      const randomValue2 = Math.floor(Math.random() * beverages.length);
+
+      const foodPick = foods[randomValue];
+      const beveragePick = beverages[randomValue2];
+
+      setTodayPick([foodPick, beveragePick]);
+    }
+    getProductsData();
+  }, []);
 
   return (
     <main>
@@ -50,13 +81,14 @@ const MainPage = () => {
         </div>
         <h1>이거 어때요?</h1>
         <div className="todayPick m-3">
-          <Card className="w-25 d-inline-block">
-            <Card.Img variant="top" src={picks[0].img} />
-            <Card.Title>{picks[0].name}</Card.Title>
+          <Card className="w-25 d-inline-block ">
+            <Card.Img variant="top" src={todayPick[0].img} />
+            <Card.Title>{todayPick[0].name}</Card.Title>
           </Card>
+          <img className="m-5" src={plusImg} width="25px" height="25px" alt="plus"/>
           <Card className="w-25 d-inline-block">
-            <Card.Img variant="top" src={picks[1].img} />
-            <Card.Title>{picks[1].name}</Card.Title>
+            <Card.Img variant="top" src={todayPick[1].img} />
+            <Card.Title>{todayPick[1].name}</Card.Title>
           </Card>
         </div>
       </article>
