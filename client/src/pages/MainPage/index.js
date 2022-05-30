@@ -1,16 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Carousel, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Carousel, Card, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import banner1 from "../../images/banner/banner1.png";
 import banner2 from "../../images/banner/banner2.png";
 import plusImg from "../../images/plus.png";
 
 const MainPage = () => {
   const [todayPick, setTodayPick] = useState([
-    { name: "...loading", img: `https://nohhow.github.io/assets/img/me/logo.png` },
-    { name: "...loading", img: `https://nohhow.github.io/assets/img/me/logo.png` },
+    {
+      name: "...loading",
+      img: `https://nohhow.github.io/assets/img/me/logo.png`,
+    },
+    {
+      name: "...loading",
+      img: `https://nohhow.github.io/assets/img/me/logo.png`,
+    },
   ]);
+  const [otherPick, setOtherPick] = useState(0)
+
+  // 라우터 네비
+  const navigate = useNavigate();
 
   useEffect(() => {
     let foods = [];
@@ -37,7 +47,7 @@ const MainPage = () => {
       setTodayPick([foodPick, beveragePick]);
     }
     getProductsData();
-  }, []);
+  }, [otherPick]);
 
   return (
     <main>
@@ -80,16 +90,35 @@ const MainPage = () => {
           </ul>
         </div>
         <h1>이거 어때요?</h1>
-        <div className="todayPick m-3">
-          <Card className="w-25 d-inline-block ">
-            <Card.Img variant="top" src={todayPick[0].img} />
+        <div className="todayPick m-5">
+          <Card
+            className="w-25 d-inline-block "
+            onClick={() => navigate(`/${todayPick[0].id}`)}
+          >
+            <div className="card-img-container">
+              <Card.Img variant="top" src={todayPick[0].img} />
+            </div>
             <Card.Title>{todayPick[0].name}</Card.Title>
           </Card>
-          <img className="m-5" src={plusImg} width="25px" height="25px" alt="plus"/>
-          <Card className="w-25 d-inline-block">
-            <Card.Img variant="top" src={todayPick[1].img} />
+          <img
+            className="m-5"
+            src={plusImg}
+            width="25px"
+            height="25px"
+            alt="plus"
+          />
+          <Card
+            className="w-25 d-inline-block"
+            onClick={() => navigate(`/${todayPick[1].id}`)}
+          >
+            <div className="card-img-container">
+              <Card.Img variant="top" src={todayPick[1].img} />
+            </div>
             <Card.Title>{todayPick[1].name}</Card.Title>
           </Card>
+          <Button className="d-block m-auto" variant="dark" onClick={() => setOtherPick(otherPick+1)}>
+            다른 조합 보기
+          </Button>
         </div>
       </article>
     </main>
