@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const api = require('./Router/index');
+app.use(express.json())
 
 // 라우팅
 app.use('/info', api);

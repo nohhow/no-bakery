@@ -7,9 +7,6 @@ import kakaoLoginLogo from "../../images/kakao_login.png"
 function LoginPage() {
 
   const getLoginInfo = async () => {
-    axios.get("/info/login").then((res) => {
-      console.log(res.data.data);
-    });
     axios.get("info/db-test").then((res)=> {
       console.log("db-test", res.data)
     })

@@ -20,11 +20,13 @@ const Profile = () => {
       setUserId(data.id);
       setNickName(data.properties.nickname);
       setProfileImage(data.properties.profile_image);
+      
       return {id : data.id, name : data.properties.nickname}
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getCheckDuplicate();
   }, []);
