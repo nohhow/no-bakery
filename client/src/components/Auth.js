@@ -25,7 +25,7 @@ const Auth = () => {
         "https://kauth.kakao.com/oauth/token",
         payload
       );
-
+            
       // Kakao Javascript SDK 초기화
       window.Kakao.init(REST_API_KEY);
       // access token 설정

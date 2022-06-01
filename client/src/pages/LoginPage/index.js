@@ -10,7 +10,7 @@ function LoginPage() {
     axios.get("/info/login").then((res) => {
       console.log(res.data.data);
     });
-    axios.get("user_inform/db-test").then((res)=> {
+    axios.get("info/db-test").then((res)=> {
       console.log("db-test", res.data)
     })
   };

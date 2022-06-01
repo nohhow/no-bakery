@@ -17,10 +17,19 @@ router.get("/products", (req, res) => {
   });
 });
 router.get("/db-test", (req, res) => {
-  db.query("SELECT * FROM login_info", (err, data) => {
+  db.query("SELECT * FROM user", (err, data) => {
     if (!err) res.send({ products: data });
     else res.send(err);
   });
+});
+
+router.get("/check_user/:kakaoid", (req, res) => {
+  const kakaoId = parseInt(req.params.kakaoid, 10);
+  console.log(kakaoId)
+  db.query(`SELECT COUNT(*) as count FROM user WHERE kakaoid = ${kakaoId}`, (err, data) => {
+    if (!err) res.send({ code : data});
+    else res.send(err);
+  })
 });
 
 router.get("/:itemid", (req, res) => {
