@@ -2,7 +2,11 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function HeaderNav() {
+function HeaderNav({ isLogin, setLogin }) {
+  const handleLogOut = () => {
+    localStorage.clear()
+    setLogin(false)
+  }
   return (
     <div>
       <header>
@@ -22,7 +26,10 @@ function HeaderNav() {
             <Navbar.Collapse id="navbar-collapse-id">
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Link className="navbar-light navbar-nav nav-link" to="/about">
+                  <Link
+                    className="navbar-light navbar-nav nav-link"
+                    to="/about"
+                  >
                     🍞 노 베이커리에 대해서
                   </Link>
                 </Nav.Item>
@@ -42,12 +49,22 @@ function HeaderNav() {
             >
               <Nav as="ul">
                 <Nav.Item as="li">
-                  <Link
-                    className="navbar-light navbar-nav nav-link"
-                    to="/login"
-                  >
-                    👤 로그인
-                  </Link>
+                  {isLogin ? (
+                    <Link
+                      className="navbar-light navbar-nav nav-link"
+                      onClick={() => handleLogOut()}
+                      to="/"
+                    >
+                      😭 로그아웃
+                    </Link>
+                  ) : (
+                    <Link
+                      className="navbar-light navbar-nav nav-link"
+                      to="/login"
+                    >
+                      👤 로그인
+                    </Link>
+                  )}
                 </Nav.Item>
                 <Nav.Item as="li">
                   <Link className="navbar-light navbar-nav nav-link" to="/cart">

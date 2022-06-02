@@ -2,10 +2,6 @@ const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send({ test: "hi" });
-});
-
 router.get("/products", (req, res) => {
   db.query("SELECT * FROM products", (err, data) => {
     if (!err) res.send({ db: data });
@@ -31,7 +27,7 @@ router.post("/register", (req, res) => {
   const userInfo = req.body.data
   
   db.query(`INSERT INTO user (nickname, email, kakaoid) VALUES ('${userInfo.name}', '${userInfo.email}', '${userInfo.id}')`, (err, data) => {
-    if (!err)   res.send({status: "good"});
+    if (!err) res.send({status: "good"});
     else res.send(err);
   })
 })

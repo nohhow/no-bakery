@@ -28,10 +28,16 @@ function JoinPage() {
   };
 
   const handleSubmit = async () => {
-    navigate('/')
-
+    localStorage.clear();
+    localStorage.setItem("id", kakaoId);
+    navigate('/', {state : {isLogin : true}})
+    
     let res = await axios.post('/info/register', {data: {name: userName, id : kakaoId, email: userEmail}})
-    console.log("등록 메시지", res)
+    if (res.data.length > 2){
+      alert('오류 발생! 다시 가입 부탁드립니다.');
+      navigate('/join');
+    } 
+    console.log("등록 메시지", res);
   };
 
   return (

@@ -1,6 +1,5 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
@@ -15,20 +14,23 @@ import Auth from "./components/Auth";
 import Profile from "./pages/LoginPage/Profile";
 
 function App() {
-  const callApi = async () => {
-    axios.get("/info").then((res) => {
-      console.log(res.data.test);
-    });
-  };
+  const [isLogin, setIsLogin] = useState(false);
+  const locateState = useLocation().state;
 
   useEffect(() => {
-    callApi();
-  }, []);
+    const userId = localStorage.getItem('id');
+    console.log('App rendering', userId);
+    if (userId) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [locateState]);
 
   const Layout = () => {
     return (
       <div>
-        <HeaderNav />
+        <HeaderNav isLogin={isLogin} handleLogin={setIsLogin}/>
         <Outlet />
         <Footer />
       </div>
@@ -41,13 +43,13 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />}></Route>
           <Route path="about" element={<InfoPage />}></Route>
-          <Route path=":itemId" element={<ItemDetail/>}></Route>
+          <Route path=":itemId" element={<ItemDetail />}></Route>
           <Route path="order" element={<OrderPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="join" element={<JoinPage />}></Route>
-          <Route path="cart" element={<CartPage/>}></Route>
+          <Route path="cart" element={<CartPage />}></Route>
           <Route path="/oauth/kakao/callback" element={<Auth />}></Route>
-          <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Route>
       </Routes>
     </div>

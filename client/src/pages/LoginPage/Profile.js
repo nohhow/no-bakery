@@ -9,7 +9,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState();
 
   const navigate = useNavigate();
-
+  
   const getProfile = async () => {
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
@@ -20,7 +20,7 @@ const Profile = () => {
       setUserId(data.id);
       setNickName(data.properties.nickname);
       setProfileImage(data.properties.profile_image);
-      
+
       return {id : data.id, name : data.properties.nickname}
     } catch (err) {
       console.log(err);
@@ -43,7 +43,10 @@ const Profile = () => {
         console.log("회원가입으로 이동합니다!!");
         navigate('/join', {state : {id : kakaoId, name: kakaoName}})
       } else {
-        console.log("로그인이 성공! 환영 페이지로 이동합니다!");
+        console.log("로그인 성공! 환영 페이지로 이동합니다!");
+        localStorage.clear();
+        localStorage.setItem("id", kakaoId);
+        navigate('/', {state : {isLogin : true}})
       }
     });
   };
