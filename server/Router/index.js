@@ -29,6 +29,16 @@ router.post("/register", (req, res) => {
   })
 })
 
+// 사용자 데이터 조회
+router.post("/user-profile", (req, res) => {
+  const userInfo = req.body.data
+
+  db.query(`SELECT * FROM user WHERE kakaoid = ${userInfo.id}`, (err, data)=>{
+    if (!err) res.send({profile : data})
+    else res.send(err);
+  })
+})
+
 // 해당 아이템 정보 반환
 router.get("/:itemid", (req, res) => {
   const itemId = parseInt(req.params.itemid, 10);

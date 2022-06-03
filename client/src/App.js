@@ -12,6 +12,7 @@ import MainPage from "./pages/MainPage";
 import OrderPage from "./pages/OrderPage";
 import Auth from "./components/Auth";
 import Profile from "./pages/LoginPage/Profile";
+import Verify from "./pages/LoginPage/Verify";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -30,7 +31,7 @@ function App() {
   const Layout = () => {
     return (
       <div>
-        <HeaderNav isLogin={isLogin} handleLogin={setIsLogin}/>
+        <HeaderNav isLogin={isLogin} handleLogin={setIsLogin} />
         <Outlet />
         <Footer />
       </div>
@@ -49,6 +50,7 @@ function App() {
           <Route path="join" element={<JoinPage />}></Route>
           <Route path="cart" element={<CartPage />}></Route>
           <Route path="/oauth/kakao/callback" element={<Auth />}></Route>
+          <Route path="/verify" element={<Verify/>}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Route>
       </Routes>

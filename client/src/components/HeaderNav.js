@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 function HeaderNav({ isLogin, setLogin }) {
   const handleLogOut = () => {
-    localStorage.clear()
-    setLogin(false)
-  }
+    localStorage.clear();
+    setLogin(false);
+  };
   return (
     <div>
       <header>
@@ -48,6 +48,18 @@ function HeaderNav({ isLogin, setLogin }) {
               className="justify-content-end"
             >
               <Nav as="ul">
+                {isLogin ? (
+                <Nav.Item as="li">
+                <Link
+                  className="navbar-light navbar-nav nav-link"
+                  to="/profile"
+                >
+                  내 정보
+                </Link>
+              </Nav.Item>
+                ) : ("")}
+
+
                 <Nav.Item as="li">
                   {isLogin ? (
                     <Link

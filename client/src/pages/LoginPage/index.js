@@ -1,20 +1,9 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { KAKAO_AUTH_URL } from "../../components/OAuth";
 import kakaoLoginLogo from "../../images/kakao_login.png"
 // import KakaoLogin from "../../components/KakaoLogin";
 
 function LoginPage() {
-
-  const getLoginInfo = async () => {
-    axios.get("info/db-test").then((res)=> {
-      console.log("db-test", res.data)
-    })
-  };
-
-  useEffect(() => {
-    getLoginInfo();
-  }, []);
 
   return (
     <main id="login_section">
