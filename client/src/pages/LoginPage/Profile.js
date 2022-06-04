@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const Profile = () => {
   const [userName, setUserName] = useState("");
   const [userEamil, setUserEamil] = useState("");
+  const [userHeart, setUserHeart] = useState(0);
 
   useEffect(() => {
     const getProfileInfo = async () => {
@@ -13,8 +14,9 @@ const Profile = () => {
       const profileData = await axios.post('/info/user-profile', {data : {id : user_id}});
   
       const userData = await profileData.data.profile[0];
-      setUserName(userData.nickname)
-      setUserEamil(userData.email)
+      setUserName(userData.nickname);
+      setUserEamil(userData.email);
+      setUserHeart(userData.heart);    
     }
 
     getProfileInfo();
@@ -31,6 +33,7 @@ const Profile = () => {
           src={profileImage}
           alt="profileImg"
         ></img> */}
+        <h5 className="my-5">현재 {userHeart}개의 ❤️를 보유하고 있어요!</h5>
         <p>바로 주문하러 가실래요?</p>
         <Link to="/order">
           <Button variant="dark" onClick={() => console.log("Dark")}>
