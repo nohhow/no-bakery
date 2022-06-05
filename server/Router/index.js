@@ -39,6 +39,19 @@ router.post("/user-profile", (req, res) => {
   })
 })
 
+// 장바구니 추가
+router.post("/addtocart", (req, res) => {
+  const cartInfo = req.body.data
+  const itemId = cartInfo.itemid
+  const quantity = cartInfo.q
+  const userId = cartInfo.userid
+
+  db.query(`INSERT INTO cart (itemid, quantity, kakaoid) VALUES ('${itemId}', '${quantity}', '${userId}')`, (err, data)=>{
+    if (!err) res.send({stauts : "good"})
+    else res.send(err);
+  })
+})
+
 // 해당 아이템 정보 반환
 router.get("/:itemid", (req, res) => {
   const itemId = parseInt(req.params.itemid, 10);

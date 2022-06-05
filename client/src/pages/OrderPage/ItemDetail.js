@@ -23,6 +23,22 @@ function ItemDetail() {
     }
   }
 
+  const handleClickCart = () => {
+    const userId = localStorage.getItem('id');
+    
+    if (!userId){
+      alert('로그인 먼저 부탁드립니다.');
+    }
+    else{
+      async function addToCart() {
+        const respond = await axios.post(`/info/addtocart`, {data:{userid: userId, itemid:itemId, q:quantity}})
+        console.log(respond);
+      }
+
+      addToCart()
+    }
+  }
+
   if (!item) return <div>...loading</div>;
   return (
     <main id="itemDetail_section">
@@ -43,7 +59,7 @@ function ItemDetail() {
             <p className="text-muted">
               <small>{item.sub}</small>
             </p>
-            <p><span className="font-1 text-muted">개당 </span><span className="font-3">1 </span><span className="font-2">❤️</span></p>
+            <p><span className="font-1 text-muted">개당 </span><span className="font-3">{item.price} </span><span className="font-2">❤️</span></p>
             <button type="button" className="qnt-btn btn-l" onClick={()=>{handleClickQntBtn(-1)}}>
               -
             </button>
@@ -60,8 +76,7 @@ function ItemDetail() {
             </button>
             <span className="text-muted m-3"><small>최대 5개</small></span>
           </div>
-
-          <Button className="mt-5" size="lg" variant="dark" onClick={() => console.log("Primary")}>
+          <Button className="mt-5" size="lg" variant="dark" onClick={() => handleClickCart()}>
             장바구니 담기
           </Button>
         </article>
