@@ -45,9 +45,20 @@ router.post("/addtocart", (req, res) => {
   const itemId = cartInfo.itemid
   const quantity = cartInfo.q
   const userId = cartInfo.userid
-
-  db.query(`INSERT INTO cart (itemid, quantity, kakaoid) VALUES ('${itemId}', '${quantity}', '${userId}')`, (err, data)=>{
+  const itemImg = cartInfo.img
+  const itemPrice = cartInfo.price
+  db.query(`INSERT INTO cart (itemid, quantity, kakaoid, image, price) VALUES ('${itemId}', '${quantity}', '${userId}', '${itemImg}', '${itemPrice}')`, (err, data)=>{
     if (!err) res.send({stauts : "good"})
+    else res.send(err);
+  })
+})
+
+// 장바구니 데이터 조회
+router.post("/cart", (req, res) => {
+  const userInfo = req.body.data
+
+  db.query(`SELECT * FROM cart WHERE kakaoid = ${userInfo.id}`, (err, data)=>{
+    if (!err) res.send({cartData : data})
     else res.send(err);
   })
 })

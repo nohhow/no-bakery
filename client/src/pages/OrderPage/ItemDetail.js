@@ -30,8 +30,8 @@ function ItemDetail() {
       alert('로그인 먼저 부탁드립니다.');
     }
     else{
-      async function addToCart() {
-        const respond = await axios.post(`/info/addtocart`, {data:{userid: userId, itemid:itemId, q:quantity}})
+      async function addToCart() { 
+        const respond = await axios.post(`/info/addtocart`, {data:{userid: userId, itemid:itemId, q:quantity, img:item.img, price:item.price}})
         console.log(respond);
       }
 
