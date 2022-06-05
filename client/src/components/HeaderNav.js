@@ -3,10 +3,12 @@ import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function HeaderNav({ isLogin, setLogin }) {
+
   const handleLogOut = () => {
     localStorage.clear();
     setLogin(false);
   };
+
   return (
     <div>
       <header>
@@ -58,8 +60,6 @@ function HeaderNav({ isLogin, setLogin }) {
                 </Link>
               </Nav.Item>
                 ) : ("")}
-
-
                 <Nav.Item as="li">
                   {isLogin ? (
                     <Link
@@ -87,6 +87,15 @@ function HeaderNav({ isLogin, setLogin }) {
             </Navbar.Collapse>
           </Navbar>
         </nav>
+        <div id="addMsgCart" className="msg_cart m-5 border-light bg-light rounded shadow-lg d-none">
+        <div className="inner_msgcart">
+          <img src="https://api.lorem.space/image/drink" alt="제품이미지"/>
+          <div id="msgReadedItem">
+            <p className="text-muted">상품명</p>
+            <p>장바구니에 상품을 담았습니다.</p>
+          </div>
+        </div>
+      </div>
       </header>
     </div>
   );

@@ -201,6 +201,26 @@ footer { position: relative; left: 0; bottom: 0; width: 100%; }
   }
 }
 
+#addMsgCart{
+  position : fixed;
+  width: 350px;
+  height: 100px;
+  top : 30px;
+  right : 10px;
+  z-index: 999;
+}
+
+.inner_msgcart{
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inner_msgcart > img {
+  margin : 0 auto;
+  max-width:100px;
+  height:80px;
+}
 /* ItemInfo */
 @media (max-width: 768px) {
   #itemDetail_section {
