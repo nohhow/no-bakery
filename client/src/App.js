@@ -31,7 +31,7 @@ function App() {
   const Layout = () => {
     return (
       <div>
-        <HeaderNav isLogin={isLogin} handleLogin={setIsLogin} />
+        <HeaderNav isLogin={isLogin} handleLogin={setIsLogin}/>
         <Outlet />
         <Footer />
       </div>

@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 function ItemDetail() {
   const { itemId } = useParams();
   const [item, setItem] = useState({});
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
+  const [cartAni, setCartAni] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,26 +19,33 @@ function ItemDetail() {
   }, [itemId]);
 
   const handleClickQntBtn = (value) => {
-    if (quantity + value <= 5 && quantity + value >= 1){
-      setQuantity(quantity + value)
+    if (quantity + value <= 5 && quantity + value >= 1) {
+      setQuantity(quantity + value);
     }
-  }
+  };
 
   const handleClickCart = () => {
-    const userId = localStorage.getItem('id');
-    
-    if (!userId){
-      alert('로그인 먼저 부탁드립니다.');
-    }
-    else{
-      async function addToCart() { 
-        const respond = await axios.post(`/info/addtocart`, {data:{userid: userId, itemid:itemId, q:quantity, img:item.img, price:item.price}})
-        console.log(respond);
-      }
+    const userId = localStorage.getItem("id");
 
-      addToCart()
+    if (!userId) {
+      alert("로그인 먼저 부탁드립니다.");
+    } else {
+      async function addToCart() {
+        await axios.post(`/info/addtocart`, {
+          data: {
+            userid: userId,
+            itemid: itemId,
+            q: quantity,
+            img: item.img,
+            price: item.price,
+          },
+        });
+      }
+      addToCart();
+      setCartAni(true);
+      setTimeout(() => {setCartAni(false)}, 3000);
     }
-  }
+  };
 
   if (!item) return <div>...loading</div>;
   return (
@@ -59,8 +67,18 @@ function ItemDetail() {
             <p className="text-muted">
               <small>{item.sub}</small>
             </p>
-            <p><span className="font-1 text-muted">개당 </span><span className="font-3">{item.price} </span><span className="font-2">❤️</span></p>
-            <button type="button" className="qnt-btn btn-l" onClick={()=>{handleClickQntBtn(-1)}}>
+            <p>
+              <span className="font-1 text-muted">개당 </span>
+              <span className="font-3">{item.price} </span>
+              <span className="font-2">❤️</span>
+            </p>
+            <button
+              type="button"
+              className="qnt-btn btn-l"
+              onClick={() => {
+                handleClickQntBtn(-1);
+              }}
+            >
               -
             </button>
             <input
@@ -71,19 +89,44 @@ function ItemDetail() {
               max="5"
               value={quantity}
             />
-            <button type="button" className="qnt-btn btn-r" onClick={()=>{handleClickQntBtn(+1)}}>
+            <button
+              type="button"
+              className="qnt-btn btn-r"
+              onClick={() => {
+                handleClickQntBtn(+1);
+              }}
+            >
               +
             </button>
-            <span className="text-muted m-3"><small>최대 5개</small></span>
+            <span className="text-muted m-3">
+              <small>최대 5개</small>
+            </span>
           </div>
-          <Button className="mt-5" size="lg" variant="dark" onClick={() => handleClickCart()}>
+          <Button
+            className="mt-5"
+            size="lg"
+            variant="dark"
+            onClick={() => handleClickCart()}
+          >
             장바구니 담기
           </Button>
         </article>
       </section>
-      <hr />
-
-      <section></section>
+      <hr/>
+      <section>
+      <div
+          id="addMsgCart"
+          className={`msg_cart m-5 border-light bg-light rounded shadow-lg ${cartAni ? "d-block" : "d-none"}`}
+        >
+          <div className="inner_msgcart">
+            <img src="https://api.lorem.space/image/drink" alt="제품이미지" />
+            <div id="msgReadedItem">
+              <p className="text-muted">상품명</p>
+              <p>장바구니에 상품을 담았습니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

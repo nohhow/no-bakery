@@ -1,13 +1,25 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function HeaderNav({ isLogin, setLogin }) {
+  // const [countCart, setCountCart] = useState(0)
 
   const handleLogOut = () => {
     localStorage.clear();
     setLogin(false);
   };
+
+  // const userId = localStorage.getItem("id");
+  // if (userId) {
+  //   const getCartData = async () => {
+  //     const respond = await axios.post(`/info/cart`, { data: { id: userId } });
+  //     setCountCart(respond.data.cartData.length);
+  //   };
+  //   getCartData();
+  // }
+
 
   return (
     <div>
@@ -51,15 +63,17 @@ function HeaderNav({ isLogin, setLogin }) {
             >
               <Nav as="ul">
                 {isLogin ? (
-                <Nav.Item as="li">
-                <Link
-                  className="navbar-light navbar-nav nav-link"
-                  to="/profile"
-                >
-                  내 정보
-                </Link>
-              </Nav.Item>
-                ) : ("")}
+                  <Nav.Item as="li">
+                    <Link
+                      className="navbar-light navbar-nav nav-link"
+                      to="/profile"
+                    >
+                      내 정보
+                    </Link>
+                  </Nav.Item>
+                ) : (
+                  ""
+                )}
                 <Nav.Item as="li">
                   {isLogin ? (
                     <Link
@@ -78,24 +92,23 @@ function HeaderNav({ isLogin, setLogin }) {
                     </Link>
                   )}
                 </Nav.Item>
-                <Nav.Item as="li">
-                  <Link className="navbar-light navbar-nav nav-link" to="/cart">
-                    🛒 장바구니<span className="badge bg-dark mx-1">0</span>
-                  </Link>
-                </Nav.Item>
+                {isLogin ? (
+                  <Nav.Item as="li">
+                    <Link
+                      className="navbar-light navbar-nav nav-link"
+                      to="/cart"
+                    >
+                      🛒 장바구니
+                      {/* <span className="badge bg-dark mx-1">{countCart}</span> */}
+                    </Link>
+                  </Nav.Item>
+                ) : (
+                  ""
+                )}
               </Nav>
             </Navbar.Collapse>
           </Navbar>
         </nav>
-        <div id="addMsgCart" className="msg_cart m-5 border-light bg-light rounded shadow-lg d-none">
-        <div className="inner_msgcart">
-          <img src="https://api.lorem.space/image/drink" alt="제품이미지"/>
-          <div id="msgReadedItem">
-            <p className="text-muted">상품명</p>
-            <p>장바구니에 상품을 담았습니다.</p>
-          </div>
-        </div>
-      </div>
       </header>
     </div>
   );

@@ -42,7 +42,7 @@ function CartPage() {
               <tbody>
                 {cart.map((data, index) => {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <th scope="row">{index + 1}</th>
                       <td>
                         <img
