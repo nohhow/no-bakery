@@ -43,11 +43,24 @@ router.post("/user-profile", (req, res) => {
 router.post("/addtocart", (req, res) => {
   const cartInfo = req.body.data
   const itemId = cartInfo.itemid
+  const itemName = cartInfo.itemname
   const quantity = cartInfo.q
   const userId = cartInfo.userid
   const itemImg = cartInfo.img
   const itemPrice = cartInfo.price
-  db.query(`INSERT INTO cart (itemid, quantity, kakaoid, image, price) VALUES ('${itemId}', '${quantity}', '${userId}', '${itemImg}', '${itemPrice}')`, (err, data)=>{
+  db.query(`INSERT INTO cart (itemid, itemname, quantity, kakaoid, image, price) VALUES ('${itemId}', '${itemName}', '${quantity}', '${userId}', '${itemImg}', '${itemPrice}')`, (err, data)=>{
+    if (!err) res.send({stauts : "good"})
+    else res.send(err);
+  })
+})
+
+// 장바구니 삭제
+router.post("/delete-cart-item", (req, res) => {
+  const cartInfo = req.body.data
+  const itemId = cartInfo.itemid
+  const userId = cartInfo.userid
+  
+  db.query(`DELETE FROM cart WHERE (itemid = '${itemId}') and (kakaoid = '${userId}')`, (err, data)=>{
     if (!err) res.send({stauts : "good"})
     else res.send(err);
   })

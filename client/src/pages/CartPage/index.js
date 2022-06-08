@@ -1,24 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, CloseButton } from "react-bootstrap";
 
 function CartPage() {
   const [cart, setCart] = useState([]);
+  const userId = localStorage.getItem("id");
+
+  const getData = async () => {
+    const cartInfo = await axios.post(`/info/cart`, { data: { id: userId } });
+    setCart(cartInfo.data.cartData); // 배열 형태로 저장
+  };
 
   useEffect(() => {
-    const userId = localStorage.getItem("id");
-
-    const getData = async () => {
-      const cartInfo = await axios.post(`/info/cart`, { data: { id: userId } });
-      setCart(cartInfo.data.cartData); // 배열 형태로 저장
-      console.log(cartInfo.data.cartData);
-    };
     getData();
   }, []);
 
   let totalPrice = 0;
   for (let v in cart) {
     totalPrice += cart[v].quantity * cart[v].price;
+  }
+
+  const handleDelete = async (item) =>{
+    const requestResult = await axios.post(`/info/delete-cart-item`, {data: { itemid : item, userid: userId}})
+    console.log(requestResult);
+    getData();
   }
 
   if (!cart) return <div>...loading</div>;
@@ -29,14 +34,15 @@ function CartPage() {
         <hr />
         {cart.length > 0 ? (
           <article>
-            <Table striped bordered responsive>
+            <Table striped borderless responsive className="text-center align-middle">
               <thead>
                 <tr>
-                  <th scope="col"></th>
-                  <th scope="col">이미지</th>
-                  <th scope="col">제품명</th>
-                  <th scope="col">갯수</th>
-                  <th scope="col">금액</th>
+                  <th width="5%" scope="col"></th>
+                  <th width="10%" scope="col">이미지</th>
+                  <th width="15%" scope="col">제품명</th>
+                  <th width="15%" scope="col">수량</th>
+                  <th width="15%" scope="col">금액</th>
+                  <th width="5%" scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -52,9 +58,10 @@ function CartPage() {
                           alt="제품이미지"
                         />
                       </td>
-                      <td>{data.itemid}</td>
+                      <td>{data.itemname}</td>
                       <td>{data.quantity}</td>
                       <td>{data.price * data.quantity} ❤️</td>
+                      <td><CloseButton onClick={() => handleDelete(data.itemid)} /></td>
                     </tr>
                   );
                 })}

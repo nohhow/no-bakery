@@ -12,7 +12,6 @@ function ItemDetail() {
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(`/info/${itemId}`);
-      console.log(request.data.db);
       setItem(request.data.db[0]);
     }
     fetchData();
@@ -31,19 +30,27 @@ function ItemDetail() {
       alert("로그인 먼저 부탁드립니다.");
     } else {
       async function addToCart() {
-        await axios.post(`/info/addtocart`, {
+        const respond = await axios.post(`/info/addtocart`, {
           data: {
             userid: userId,
             itemid: itemId,
+            itemname: item.name,
             q: quantity,
             img: item.img,
             price: item.price,
           },
         });
+        if (respond.data.code === "ER_DUP_ENTRY") {
+          alert("이미 장바구니에 추가된 품목입니다!");
+        } else {
+          // 장바구니 담기 확인 문구 팝업
+          setCartAni(true);
+          setTimeout(() => {
+            setCartAni(false);
+          }, 3000);
+        }
       }
       addToCart();
-      setCartAni(true);
-      setTimeout(() => {setCartAni(false)}, 3000);
     }
   };
 
@@ -112,16 +119,18 @@ function ItemDetail() {
           </Button>
         </article>
       </section>
-      <hr/>
+      <hr />
       <section>
-      <div
+        <div
           id="addMsgCart"
-          className={`msg_cart m-5 border-light bg-light rounded shadow-lg ${cartAni ? "d-block" : "d-none"}`}
+          className={`msg_cart m-5 border-light bg-light rounded shadow-lg ${
+            cartAni ? "d-block" : "d-none"
+          }`}
         >
           <div className="inner_msgcart">
-            <img src="https://api.lorem.space/image/drink" alt="제품이미지" />
+            <img src={item.img} alt="제품이미지" />
             <div id="msgReadedItem">
-              <p className="text-muted">상품명</p>
+              <p className="text-muted">{item.name}</p>
               <p>장바구니에 상품을 담았습니다.</p>
             </div>
           </div>
