@@ -306,3 +306,17 @@ input[type="number"]::-webkit-inner-spin-button {
     margin-top: 56px;
   }
 }
+
+/* ADMIN */
+@media (max-width: 768px) {
+  #admin_section {
+    padding: 7% 5%;
+    margin-top: 56px;
+  }
+}
+@media (min-width: 769px) {
+  #admin_section {
+    padding: 7% 10%;
+    margin-top: 56px;
+  }
+}
