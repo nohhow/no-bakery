@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Nav, Table } from "react-bootstrap";
+import { Button, Nav, Table } from "react-bootstrap";
 import onlyAdmin from "../../images/onlyAdmin.jpeg";
 
 function AdminPage() {
   const [userEmail, setUserEmail] = useState("");
-  const [userList, setUserList] = useState("");
+  const [userList, setUserList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
   const [nowTab, setNowTab] = useState("order");
 
   const getCheckAdmin = async () => {
@@ -20,9 +21,15 @@ function AdminPage() {
     setUserList(allUserData.data.list);
   };
 
+  const getOrderData = async () => {
+    const allOrderData = await axios.get(`info/all-order-data`);
+    setOrderList(allOrderData.data.list);
+  };
+
   useEffect(() => {
     getCheckAdmin();
     getUserData();
+    getOrderData();
   }, []);
 
   const handleTabClick = (event) => {
@@ -32,6 +39,7 @@ function AdminPage() {
   if (userEmail === "xksrma97@gmail.com") {
     return (
       <main id="admin_section">
+        <h2>🥸 ADMIN</h2>
         <hr />
         <Nav as="ul" variant="pills">
           <Nav.Item as="li">
@@ -57,10 +65,41 @@ function AdminPage() {
 
         {nowTab === "order" ? (
           <section>
-            <ul>
-              <li>주문1</li>
-              <li>주문2</li>
-            </ul>
+            <Table bordered responsive>
+              <thead>
+                <tr>
+                  <th>주문일시</th>
+                  <th>주문자명</th>
+                  <th>이메일</th>
+                  <th>제품</th>
+                  <th>수량</th>
+                  <th>지불금액</th>
+                  <th>주문확인</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderList.map((data, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{data.orderdate}</td>
+                      <td>{data.username}</td>
+                      <td>{data.userEmail}</td>
+                      <td>{data.itemList}</td>
+                      <td>{data.quantityList}</td>
+                      <td>{data.price} ❤️</td>
+                      <td>
+                        <Button
+                          variant="dark"
+                          onClick={() => console.log("확인완료")}
+                        >
+                          확인완료
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
           </section>
         ) : nowTab === "user" ? (
           <section>
