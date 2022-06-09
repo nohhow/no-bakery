@@ -27,7 +27,7 @@ router.post("/register", (req, res) => {
   const userInfo = req.body.data;
 
   db.query(
-    `INSERT INTO user (nickname, email, kakaoid) VALUES ('${userInfo.name}', '${userInfo.email}', '${userInfo.id}')`,
+    `INSERT INTO user (nickname, email, kakaoid, heart) VALUES ('${userInfo.name}', '${userInfo.email}', '${userInfo.id}', 10)`,
     (err, data) => {
       if (!err) res.send({ status: "good" });
       else res.send(err);
