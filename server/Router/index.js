@@ -55,6 +55,14 @@ router.post("/check-admin", (req, res) => {
   });
 });
 
+// 모든 사용자 리스트 조회
+router.get("/all-user-data", (req, res)=>{
+  db.query(`SELECT * FROM user`, (err, data)=>{
+    if(!err) res.send({list : data});
+    else res.send(err);
+  })
+})
+
 // 장바구니 추가
 router.post("/addtocart", (req, res) => {
   const cartInfo = req.body.data;
