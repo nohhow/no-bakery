@@ -63,6 +63,14 @@ router.get("/all-user-data", (req, res)=>{
   })
 })
 
+// 모든 주문 조회
+router.get("/all-order-data", (req, res)=>{
+  db.query(`SELECT * FROM user_info.order`, (err, data)=>{
+    if(!err) res.send({list : data});
+    else res.send(err);
+  })
+})
+
 // 장바구니 추가
 router.post("/addtocart", (req, res) => {
   const cartInfo = req.body.data;
@@ -105,6 +113,16 @@ router.post("/cart", (req, res) => {
     else res.send(err);
   });
 });
+
+// 주문 요청 저장
+router.post("/order", (req, res) => {
+  const orderInfo = req.body.data;
+  `INSERT INTO `
+  db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT)`, (err, data) =>{
+    if (!err) res.send({ status: "success" });
+    else res.send(err);
+  })
+})
 
 // 해당 아이템 정보 반환
 router.get("/:itemid", (req, res) => {

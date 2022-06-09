@@ -21,9 +21,20 @@ function CartPage() {
   }
 
   const handleDelete = async (item) =>{
-    const requestResult = await axios.post(`/info/delete-cart-item`, {data: { itemid : item, userid: userId}})
-    console.log(requestResult);
+    await axios.post(`/info/delete-cart-item`, {data: { itemid : item, userid: userId}})
     getData();
+  }
+
+
+  const handleOrderClick = async () => {
+    const userData = await axios.post(`/info/user-profile`, {data:{id:userId}})
+    if (userData.status === 200){
+      const userProfile = userData.data.profile[0]
+      const requestResult = await axios.post(`/info/order`, {data:{userName: userProfile.nickname, email: userProfile.email, itemList: "1", quantityList: "1" , price: totalPrice}})
+      console.log(requestResult)
+    }else{
+      alert("주문 실패. 다시 시도해주세요.");
+    }
   }
 
   if (!cart) return <div>...loading</div>;
@@ -72,9 +83,9 @@ function CartPage() {
               <Button
                 className="btn-lg mt-3 "
                 variant="dark"
-                onClick={() => console.log("결제하기")}
+                onClick={() => handleOrderClick()}
               >
-                결제하기
+                주문하기
               </Button>
             </div>
           </article>
