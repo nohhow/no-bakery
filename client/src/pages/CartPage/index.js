@@ -33,9 +33,10 @@ function CartPage() {
     if (userData.status === 200){
       const userProfile = userData.data.profile[0]
       const requestResult = await axios.post(`/info/order`, {data:{userName: userProfile.nickname, email: userProfile.email, itemList: "1", quantityList: "1" , price: totalPrice}})
-      // 주문 성공 여부 로그 (삭제 예정)
-      console.log(requestResult)
+
+      // sql문이 정상 동작했을 때(주문 성공)
       if (requestResult.data.code === "success"){
+        axios.post(`/info/cart-clear`, {data:{id:userId}});
         navigate('/order-complete');
       }
 

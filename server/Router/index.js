@@ -114,6 +114,16 @@ router.post("/cart", (req, res) => {
   });
 });
 
+// 장바구니 초기화
+router.post("/cart-clear", (req, res) => {
+  const userInfo = req.body.data;
+
+  db.query(`DELETE FROM user_info.cart WHERE kakaoid = '${userInfo.id}'`, (err, data)=>{
+    if (!err) res.send({ code : "success"});
+    else res.send(err);
+  })
+})
+
 // 주문 요청 저장
 router.post("/order", (req, res) => {
   const orderInfo = req.body.data;
