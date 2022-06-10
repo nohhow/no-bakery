@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table, Button, CloseButton } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
   const [cart, setCart] = useState([]);
   const userId = localStorage.getItem("id");
+  const navigate = useNavigate();
 
   const getData = async () => {
     const cartInfo = await axios.post(`/info/cart`, { data: { id: userId } });
@@ -31,9 +33,14 @@ function CartPage() {
     if (userData.status === 200){
       const userProfile = userData.data.profile[0]
       const requestResult = await axios.post(`/info/order`, {data:{userName: userProfile.nickname, email: userProfile.email, itemList: "1", quantityList: "1" , price: totalPrice}})
+      // 주문 성공 여부 로그 (삭제 예정)
       console.log(requestResult)
+      if (requestResult.data.code === "success"){
+        navigate('/order-complete');
+      }
+
     }else{
-      alert("주문 실패. 다시 시도해주세요.");
+      alert("서버가 응답하지 않습니다. 다시 시도해주세요.");
     }
   }
 

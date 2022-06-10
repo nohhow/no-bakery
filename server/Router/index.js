@@ -119,7 +119,7 @@ router.post("/order", (req, res) => {
   const orderInfo = req.body.data;
   `INSERT INTO `
   db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT)`, (err, data) =>{
-    if (!err) res.send({ status: "success" });
+    if (!err) res.send({ code: "success" });
     else res.send(err);
   })
 })

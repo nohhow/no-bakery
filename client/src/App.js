@@ -14,6 +14,7 @@ import Auth from "./components/Auth";
 import Profile from "./pages/LoginPage/Profile";
 import Verify from "./pages/LoginPage/Verify";
 import AdminPage from "./pages/AdminPage";
+import OrderComplete from "./pages/CartPage/OrderComplete";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -50,6 +51,7 @@ function App() {
           <Route path="login" element={<LoginPage />}></Route>
           <Route path="join" element={<JoinPage />}></Route>
           <Route path="cart" element={<CartPage />}></Route>
+          <Route path="order-complete" element={<OrderComplete/>}></Route>
           <Route path="/oauth/kakao/callback" element={<Auth />}></Route>
           <Route path="/verify" element={<Verify/>}></Route>
           <Route path="/profile" element={<Profile />}></Route>
