@@ -84,8 +84,24 @@ function AdminPage() {
                       <td>{data.orderdate}</td>
                       <td>{data.username}</td>
                       <td>{data.userEmail}</td>
-                      <td>{data.itemList}</td>
-                      <td>{data.quantityList}</td>
+                      <td>
+                        {data.itemList.split(",").map((data) => {
+                          if (data !== "") {
+                            return <p>{data}</p>;
+                          } else {
+                            return "";
+                          }
+                        })}
+                      </td>
+                      <td>
+                        {data.quantityList.split(",").map((data) => {
+                          if (data !== "") {
+                            return <p>{data}</p>;
+                          } else {
+                            return "";
+                          }
+                        })}
+                      </td>
                       <td>{data.price} ❤️</td>
                       <td>
                         <Button
