@@ -32,9 +32,15 @@ function CartPage() {
     const userData = await axios.post(`/info/user-profile`, {data:{id:userId}})
     if (userData.status === 200){
       const userProfile = userData.data.profile[0]
-      const requestResult = await axios.post(`/info/order`, {data:{userName: userProfile.nickname, email: userProfile.email, itemList: "1", quantityList: "1" , price: totalPrice}})
+      let itemList = ""
+      let quantityList = ""
+      for (let property in cart){
+        itemList = itemList + cart[property].itemname + ",";
+        quantityList = quantityList + cart[property].quantity + ",";
+      }
+      const requestResult = await axios.post(`/info/order`, {data:{userName: userProfile.nickname, email: userProfile.email, itemList: itemList, quantityList: quantityList , price: totalPrice}})
 
-      // sql문이 정상 동작했을 때(주문 성공)
+      // sql문이 정상 동작했을 때(=주문 성공)
       if (requestResult.data.code === "success"){
         axios.post(`/info/cart-clear`, {data:{id:userId}});
         navigate('/order-complete');
