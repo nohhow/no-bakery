@@ -15,7 +15,6 @@ export default function useWindowDimensions() {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
-    console.log("꽃가루를 날려~~")
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
