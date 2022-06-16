@@ -128,7 +128,7 @@ router.post("/cart-clear", (req, res) => {
 router.post("/order", (req, res) => {
   const orderInfo = req.body.data;
   `INSERT INTO `
-  db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT)`, (err, data) =>{
+  db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate, status) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT, 'request')`, (err, data) =>{
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
