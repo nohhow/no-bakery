@@ -1,13 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Nav, Table } from "react-bootstrap";
+import { Modal, Button, Nav, Table } from "react-bootstrap";
 import onlyAdmin from "../../images/onlyAdmin.jpeg";
 
 function AdminPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userList, setUserList] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  // tab bar
   const [nowTab, setNowTab] = useState("order");
+  // modal-status
+  const [modalOpen, setModalOpen] = useState(false);
+  // order-detail
+  const [orderDetail, setOrderDetail] = useState({});
 
   const getCheckAdmin = async () => {
     const userData = await axios.post("/info/check-admin", {
@@ -30,10 +35,20 @@ function AdminPage() {
     getCheckAdmin();
     getUserData();
     getOrderData();
-  }, []);
+  }, [modalOpen]);
 
   const handleTabClick = (event) => {
     setNowTab(event.id);
+  };
+
+  const handleRowClick = (orderNum) => {
+    const orderDetail = orderList.filter(order => order.orderNumber === orderNum);
+    setOrderDetail(orderDetail[0]);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   if (userEmail === "xksrma97@gmail.com") {
@@ -80,37 +95,55 @@ function AdminPage() {
               <tbody>
                 {orderList.map((data, index) => {
                   return (
-                    <tr key={index} onClick={() => alert(`안뇽하모니카${index}`)}>
+                    <tr
+                      key={index}
+                      onClick={() => handleRowClick(data.orderNumber)}
+                    >
                       <td>{data.orderdate}</td>
                       <td>{data.username}</td>
                       <td>{data.userEmail}</td>
                       <td>
-                        {data.itemList.split(",").map((data) => {
+                        {data.itemList.split(",").map((data, index) => {
                           if (data !== "") {
-                            return <p>{data}</p>;
+                            return <p key={index}>{data}</p>;
                           } else {
                             return "";
                           }
                         })}
                       </td>
                       <td>
-                        {data.quantityList.split(",").map((data) => {
+                        {data.quantityList.split(",").map((data, index) => {
                           if (data !== "") {
-                            return <p>{data}</p>;
+                            return <p key={index}>{data}</p>;
                           } else {
                             return "";
                           }
                         })}
                       </td>
                       <td>{data.price} ❤️</td>
-                      <td>
-                        {data.status}
-                      </td>
+                      <td>{data.status}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </Table>
+            {/* modal */}
+            <Modal show={modalOpen} onHide={!modalOpen}>
+              <Modal.Header closeButton>
+                <Modal.Title>주문번호 : {orderDetail.orderNumber}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                현재 주문 상태 : {orderDetail.status}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleModalClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleModalClose}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </section>
         ) : nowTab === "user" ? (
           <section>
