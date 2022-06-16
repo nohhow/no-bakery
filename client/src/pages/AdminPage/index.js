@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Nav, Table } from "react-bootstrap";
+import { Nav, Table } from "react-bootstrap";
 import onlyAdmin from "../../images/onlyAdmin.jpeg";
 
 function AdminPage() {
@@ -74,13 +74,13 @@ function AdminPage() {
                   <th>제품</th>
                   <th>수량</th>
                   <th>지불금액</th>
-                  <th>주문확인</th>
+                  <th>주문상태</th>
                 </tr>
               </thead>
               <tbody>
                 {orderList.map((data, index) => {
                   return (
-                    <tr key={index}>
+                    <tr key={index} onClick={() => alert(`안뇽하모니카${index}`)}>
                       <td>{data.orderdate}</td>
                       <td>{data.username}</td>
                       <td>{data.userEmail}</td>
@@ -104,12 +104,7 @@ function AdminPage() {
                       </td>
                       <td>{data.price} ❤️</td>
                       <td>
-                        <Button
-                          variant="dark"
-                          onClick={() => console.log("확인완료")}
-                        >
-                          확인완료
-                        </Button>
+                        {data.status}
                       </td>
                     </tr>
                   );
