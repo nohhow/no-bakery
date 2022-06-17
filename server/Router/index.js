@@ -127,8 +127,16 @@ router.post("/cart-clear", (req, res) => {
 // 주문 요청 저장
 router.post("/order", (req, res) => {
   const orderInfo = req.body.data;
-  `INSERT INTO `
   db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate, status) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT, 'request')`, (err, data) =>{
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
+// Admin의 주문 현황 변경 요청
+router.post("/update-order-status", (req, res) => {
+  const orderInfo = req.body.data;
+  db.query(`UPDATE user_info.order SET status = '${orderInfo.new_status}' WHERE orderNumber = '${orderInfo.orderNumber}'`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
