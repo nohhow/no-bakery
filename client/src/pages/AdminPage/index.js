@@ -35,9 +35,11 @@ function AdminPage() {
   };
 
   const setOrderStatus = async (orderId, status) => {
-    const result = await axios.post(`info/update-order-status`, {data: {orderNumber : orderId, new_status : status}})
+    const result = await axios.post(`info/update-order-status`, {
+      data: { orderNumber: orderId, new_status: status },
+    });
     console.log("주문 현황 변경 요청 결과 : ", result);
-  }
+  };
 
   // Modal이 close될 때 변경된 정보가 반영될 수 있도록 함
   useEffect(() => {
@@ -67,24 +69,21 @@ function AdminPage() {
     // 주문상태 변경 요청(저장)
     setOrderStatus(orderDetail.orderNumber, tempStatus);
     setModalOpen(false);
-  }
-  
+  };
+
   const setProgressBar = (step) => {
     let percentage = 0;
-    if(step === "request"){
+    if (step === "request") {
       percentage = 25;
-    }
-    else if (step === "accept"){
+    } else if (step === "accept") {
       percentage = 50;
-    }
-    else if (step === "fixedDate"){
+    } else if (step === "fixedDate") {
       percentage = 75;
-    }
-    else if (step === "delivered"){
+    } else if (step === "delivered") {
       percentage = 100;
     }
     return percentage;
-  }
+  };
 
   if (userEmail === "xksrma97@gmail.com") {
     return (
@@ -133,6 +132,7 @@ function AdminPage() {
                     <tr
                       key={index}
                       onClick={() => handleRowClick(data.orderNumber)}
+                      className={`cursor-pointer ${data.status === "delivered" ? "text-muted" : ""}`}
                     >
                       <td>{data.orderdate}</td>
                       <td>{data.username}</td>
@@ -156,45 +156,101 @@ function AdminPage() {
                         })}
                       </td>
                       <td>{data.price} ❤️</td>
-                      <td>{data.status}</td>
+                      <td>
+                        {data.status}
+                        <ProgressBar
+                          variant="warning"
+                          now={setProgressBar(data.status)}
+                          label=""
+                        />{" "}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </Table>
             {/* modal */}
-            <Modal show={modalOpen} onHide={!modalOpen} size="lg">
+            <Modal show={modalOpen} onHide={handleModalClose} size="lg">
               <Modal.Header>
                 <Modal.Title>주문번호 : {orderDetail.orderNumber}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 {/* 주문 상태는 주문 접수 전|배송 날짜 조정 중|배송 예정일 전달 완료|배송 완료*/}
                 <h3>현재 주문 상태 : {orderDetail.status}</h3>
-                <br/>
+                <br />
                 <Table bordered responsive className="text-center align-middle">
                   <thead>
                     <tr>
-                      <th width="25%">신규 주문{<br/>}request</th>
-                      <th width="25%">배송 날짜 조정 중{<br/>}accept</th>
-                      <th width="25%">배송 예정일 전달 완료{<br/>}fixedDate</th>
-                      <th width="25%">배송 완료{<br/>}delivered</th>
+                      <th width="25%">신규 주문{<br />}request</th>
+                      <th width="25%">배송 날짜 조정 중{<br />}accept</th>
+                      <th width="25%">
+                        배송 예정일 전달 완료{<br />}fixedDate
+                      </th>
+                      <th width="25%">배송 완료{<br />}delivered</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td colSpan={4}><ProgressBar variant="primary" now={setProgressBar(!tempStatus ? orderDetail.status : tempStatus)} label="" /></td></tr>
+                    <tr>
+                      <td colSpan={4}>
+                        <ProgressBar
+                          animated
+                          variant="warning"
+                          now={setProgressBar(
+                            !tempStatus ? orderDetail.status : tempStatus
+                          )}
+                          label=""
+                        />
+                      </td>
+                    </tr>
                     <tr>
                       <td>✔️</td>
-                      <td>{orderDetail.status==="request" ? (
-                        <Button variant="dark" onClick={() => setTempStatus("accept")} disabled={tempStatus==="accept"? true : false}>진행</Button>
-                        ): orderDetail.status==="accept" || orderDetail.status==="fixedDate" || orderDetail.status==="delivered" ? ("✔️") : ("-")}
-                        </td>
-                      <td>{orderDetail.status==="accept" ? (
-                        <Button variant="dark" onClick={() => setTempStatus("fixedDate")} disabled={tempStatus==="fixedDate"? true : false}>진행</Button>
-                      ): orderDetail.status==="delivered" || orderDetail.status==="fixedDate" ? ("✔️") : ("-")}
+                      <td>
+                        {orderDetail.status === "request" ? (
+                          <Button
+                            variant="dark"
+                            onClick={() => setTempStatus("accept")}
+                            disabled={tempStatus === "accept" ? true : false}
+                          >
+                            진행
+                          </Button>
+                        ) : orderDetail.status === "accept" ||
+                          orderDetail.status === "fixedDate" ||
+                          orderDetail.status === "delivered" ? (
+                          "✔️"
+                        ) : (
+                          "-"
+                        )}
                       </td>
-                      <td>{orderDetail.status==="fixedDate" ? (
-                        <Button variant="dark" onClick={() => setTempStatus("delivered")} disabled={tempStatus==="delivered"? true : false}>진행</Button>
-                        ): orderDetail.status==="delivered" ? ("✔️") : ("-")}
+                      <td>
+                        {orderDetail.status === "accept" ? (
+                          <Button
+                            variant="dark"
+                            onClick={() => setTempStatus("fixedDate")}
+                            disabled={tempStatus === "fixedDate" ? true : false}
+                          >
+                            진행
+                          </Button>
+                        ) : orderDetail.status === "delivered" ||
+                          orderDetail.status === "fixedDate" ? (
+                          "✔️"
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td>
+                        {orderDetail.status === "fixedDate" ? (
+                          <Button
+                            variant="dark"
+                            onClick={() => setTempStatus("delivered")}
+                            disabled={tempStatus === "delivered" ? true : false}
+                          >
+                            진행
+                          </Button>
+                        ) : orderDetail.status === "delivered" ? (
+                          "✔️"
+                        ) : (
+                          "-"
+                        )}
                       </td>
                     </tr>
                   </tbody>
@@ -204,9 +260,13 @@ function AdminPage() {
                 <Button variant="secondary" onClick={handleModalClose}>
                   닫기
                 </Button>
-                <Button variant="primary" onClick={handleModalSave}>
-                  저장 후 닫기
-                </Button>
+                {tempStatus ? (
+                  <Button variant="primary" onClick={handleModalSave}>
+                    저장 후 닫기
+                  </Button>
+                ) : (
+                  ""
+                )}
               </Modal.Footer>
             </Modal>
           </section>

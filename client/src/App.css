@@ -335,3 +335,11 @@ input[type="number"]::-webkit-inner-spin-button {
     margin-top: 56px;
   }
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover{
+  background-color: #f8f9fa;
+}
