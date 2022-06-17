@@ -162,7 +162,7 @@ function AdminPage() {
                           variant="warning"
                           now={setProgressBar(data.status)}
                           label=""
-                        />{" "}
+                        />
                       </td>
                     </tr>
                   );

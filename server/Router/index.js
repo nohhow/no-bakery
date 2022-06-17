@@ -71,6 +71,16 @@ router.get("/all-order-data", (req, res)=>{
   })
 })
 
+// 특정 사용자 주문 조회
+router.post("/user-order-data", (req, res)=>{
+  const userName = req.body.data.username
+
+  db.query(`SELECT * FROM user_info.order WHERE username = '${userName}'`, (err, data)=>{
+    if(!err) res.send({list : data});
+    else res.send(err);
+  })
+})
+
 // 장바구니 추가
 router.post("/addtocart", (req, res) => {
   const cartInfo = req.body.data;
