@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table, Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { PieChart } from "react-minimal-pie-chart";
 
 const Profile = () => {
   const [userName, setUserName] = useState("");
@@ -29,6 +30,7 @@ const Profile = () => {
         setUserOrder(respond.data.list);
       };
       getUserOrderData();
+
     };
 
     getProfileInfo();
@@ -49,14 +51,31 @@ const Profile = () => {
         </h5>
         <Container>
           <Row>
-            <Col className="border p-5 mx-1">
-              <p>바로 주문하러 가실래요?</p>
-              <Link to="/order">
-                <Button variant="dark">주문하기</Button>
-              </Link>
+            <Col className="border rounded shadow p-5 m-2">
+              <h4>{userName}님의 취향</h4>
+              <hr />
+              {userOrder.length === 0 ? (
+                <div>
+                  <p>아직 주문 하신 적 없어요! 바로 주문하러 가실까요?</p>
+                  <Link to="/order">
+                    <Button variant="dark">주문하기</Button>
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <PieChart animate
+                    data={[
+                      { title: "One", value: 10, color: "#E38627"},
+                      { title: "Two", value: 15, color: "#C13C37" },
+                      { title: "Three", value: 20, color: "#6A2135" },
+                    ]}
+                  />
+                </div>
+              )}
             </Col>
-            <Col className="border p-5 mx-1">
-              <p>주문 현황</p>
+            <Col className="border rounded shadow p-5 m-2">
+              <h4>{userName}님의 주문현황</h4>
+              <hr />
               <Table bordered responsive>
                 <thead>
                   <tr>
@@ -92,9 +111,7 @@ const Profile = () => {
                           })}
                         </td>
                         <td>{data.orderdate}</td>
-                        <td>
-                          {data.status}
-                        </td>
+                        <td>{data.status}</td>
                       </tr>
                     );
                   })}
