@@ -10,6 +10,12 @@ const Profile = () => {
   const [userHeart, setUserHeart] = useState(0);
   const [userOrder, setUserOrder] = useState([]);
   const [moreView, setMoreView] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const chartTempData = []
+
+  function setDefault(obj, prop, quantity) {
+    return obj.hasOwnProperty(prop) ? obj[prop] += Number(quantity) : (obj[prop] = Number(quantity));
+  }
 
   useEffect(() => {
     const getProfileInfo = async () => {
@@ -28,6 +34,31 @@ const Profile = () => {
           data: { username: userData.nickname },
         });
         setUserOrder(respond.data.list);
+        // CHART DATA 초기화
+        const userOrderData = respond.data.list
+        const userOrderItems = []
+        const userOrderQuantities = []
+
+        for(let i in userOrderData){
+          for(let j in userOrderData[i].itemList.split(",")){
+            if (userOrderData[i].itemList.split(",")[j] !== ""){
+              userOrderItems.push(userOrderData[i].itemList.split(",")[j])
+            } 
+          }
+          for(let j in userOrderData[i].quantityList.split(",")){
+            if (userOrderData[i].quantityList.split(",")[j] !== ""){
+              userOrderQuantities.push(Number(userOrderData[i].quantityList.split(",")[j]))
+            }
+          }
+        }
+        for (let i in userOrderItems){
+          setDefault(chartTempData, userOrderItems[i], userOrderQuantities[i]);
+        }
+        const chartdata = []
+        for (let item in chartTempData){
+          chartdata.push({title : item, value : chartTempData[item], color : "#"+Math.round(Math.random() * 0xffffff).toString(16)})
+        }
+        setChartData(chartdata);
       };
       getUserOrderData();
 
@@ -64,11 +95,7 @@ const Profile = () => {
               ) : (
                 <div>
                   <PieChart animate
-                    data={[
-                      { title: "One", value: 10, color: "#E38627"},
-                      { title: "Two", value: 15, color: "#C13C37" },
-                      { title: "Three", value: 20, color: "#6A2135" },
-                    ]}
+                    data={chartData}
                   />
                 </div>
               )}
