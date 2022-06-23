@@ -322,6 +322,11 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+svg > text {
+  font-size: 4px;
+}
+
+
 /* ADMIN */
 @media (max-width: 768px) {
   #admin_section {

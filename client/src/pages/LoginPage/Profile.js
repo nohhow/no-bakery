@@ -13,6 +13,7 @@ const Profile = () => {
   const [chartData, setChartData] = useState([]);
   const chartTempData = []
 
+  // python의 dict.setDefault 구현
   function setDefault(obj, prop, quantity) {
     return obj.hasOwnProperty(prop) ? obj[prop] += Number(quantity) : (obj[prop] = Number(quantity));
   }
@@ -34,6 +35,7 @@ const Profile = () => {
           data: { username: userData.nickname },
         });
         setUserOrder(respond.data.list);
+
         // CHART DATA 초기화
         const userOrderData = respond.data.list
         const userOrderItems = []
@@ -82,7 +84,7 @@ const Profile = () => {
         </h5>
         <Container>
           <Row>
-            <Col className="border rounded shadow p-5 m-2">
+            <Col className="border rounded shadow p-5 m-2 col-sm-12 col-lg-6">
               <h4>{userName}님의 취향</h4>
               <hr />
               {userOrder.length === 0 ? (
@@ -96,6 +98,7 @@ const Profile = () => {
                 <div>
                   <PieChart animate
                     data={chartData}
+                    label={({ dataEntry }) => dataEntry.title + " " + dataEntry.value}
                   />
                 </div>
               )}
