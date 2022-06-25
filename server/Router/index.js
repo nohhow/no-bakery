@@ -75,7 +75,7 @@ router.get("/all-order-data", (req, res)=>{
 router.post("/user-order-data", (req, res)=>{
   const userName = req.body.data.username
 
-  db.query(`SELECT * FROM user_info.order WHERE username = '${userName}'`, (err, data)=>{
+  db.query(`SELECT * FROM user_info.order WHERE username = '${userName}' ORDER BY orderdate desc`, (err, data)=>{
     if(!err) res.send({list : data});
     else res.send(err);
   })
