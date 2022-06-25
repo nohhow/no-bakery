@@ -143,6 +143,15 @@ router.post("/order", (req, res) => {
   })
 })
 
+// 주문 취소 요청
+router.post("/cancelOrder", (req, res) => {
+  const orderInfo = req.body.data;
+  db.query(`UPDATE user_info.order SET status = 'canceled' WHERE orderNumber = '${orderInfo.orderId}'`, (err, data) => {
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
 // Admin의 주문 현황 변경 요청
 router.post("/update-order-status", (req, res) => {
   const orderInfo = req.body.data;

@@ -132,7 +132,7 @@ function AdminPage() {
                     <tr
                       key={index}
                       onClick={() => handleRowClick(data.orderNumber)}
-                      className={`cursor-pointer ${data.status === "delivered" ? "text-muted" : ""}`}
+                      className={`cursor-pointer ${data.status === "delivered" || data.status === "canceled" ? "text-muted" : ""}`}
                     >
                       <td>{data.orderdate}</td>
                       <td>{data.username}</td>

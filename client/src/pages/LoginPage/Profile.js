@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table, Button, Container, Row, Col } from "react-bootstrap";
+import { Modal, Table, Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -11,63 +11,94 @@ const Profile = () => {
   const [userOrder, setUserOrder] = useState([]);
   const [moreView, setMoreView] = useState(false);
   const [chartData, setChartData] = useState([]);
-  const chartTempData = []
+  const chartTempData = [];
+  const [modalOpen, setModalOpen] = useState(false);
+  const [cancelOrderId, setCancelOrderId] = useState(0)
 
   // python의 dict.setDefault 구현
   function setDefault(obj, prop, quantity) {
     return obj.hasOwnProperty(prop) ? obj[prop] += Number(quantity) : (obj[prop] = Number(quantity));
   }
 
-  useEffect(() => {
-    const getProfileInfo = async () => {
-      const user_id = localStorage.getItem("id");
-      const profileData = await axios.post("/info/user-profile", {
-        data: { id: user_id },
+  // 사용자 데이터 요청
+  const getProfileInfo = async () => {
+    const user_id = localStorage.getItem("id");
+    const profileData = await axios.post("/info/user-profile", {
+      data: { id: user_id },
+    });
+
+    const userData = await profileData.data.profile[0];
+    setUserName(userData.nickname);
+    setUserEamil(userData.email);
+    setUserHeart(userData.heart);
+
+    const getUserOrderData = async () => {
+      const respond = await axios.post("/info/user-order-data", {
+        data: { username: userData.nickname },
       });
+      setUserOrder(respond.data.list);
 
-      const userData = await profileData.data.profile[0];
-      setUserName(userData.nickname);
-      setUserEamil(userData.email);
-      setUserHeart(userData.heart);
+      // CHART DATA 초기화
+      const userOrderData = respond.data.list
+      const userOrderItems = []
+      const userOrderQuantities = []
 
-      const getUserOrderData = async () => {
-        const respond = await axios.post("/info/user-order-data", {
-          data: { username: userData.nickname },
-        });
-        setUserOrder(respond.data.list);
-
-        // CHART DATA 초기화
-        const userOrderData = respond.data.list
-        const userOrderItems = []
-        const userOrderQuantities = []
-
-        for(let i in userOrderData){
-          for(let j in userOrderData[i].itemList.split(",")){
-            if (userOrderData[i].itemList.split(",")[j] !== ""){
-              userOrderItems.push(userOrderData[i].itemList.split(",")[j])
-            } 
-          }
-          for(let j in userOrderData[i].quantityList.split(",")){
-            if (userOrderData[i].quantityList.split(",")[j] !== ""){
-              userOrderQuantities.push(Number(userOrderData[i].quantityList.split(",")[j]))
-            }
+      for(let i in userOrderData){
+        for(let j in userOrderData[i].itemList.split(",")){
+          if (userOrderData[i].itemList.split(",")[j] !== ""){
+            userOrderItems.push(userOrderData[i].itemList.split(",")[j])
+          } 
+        }
+        for(let j in userOrderData[i].quantityList.split(",")){
+          if (userOrderData[i].quantityList.split(",")[j] !== ""){
+            userOrderQuantities.push(Number(userOrderData[i].quantityList.split(",")[j]))
           }
         }
-        for (let i in userOrderItems){
-          setDefault(chartTempData, userOrderItems[i], userOrderQuantities[i]);
-        }
-        const chartdata = []
-        for (let item in chartTempData){
-          chartdata.push({title : item, value : chartTempData[item], color : "#"+Math.round(Math.random() * 0xffffff).toString(16)})
-        }
-        setChartData(chartdata);
-      };
-      getUserOrderData();
-
+      }
+      for (let i in userOrderItems){
+        setDefault(chartTempData, userOrderItems[i], userOrderQuantities[i]);
+      }
+      const chartdata = []
+      for (let item in chartTempData){
+        chartdata.push({title : item, value : chartTempData[item], color : "#"+Math.round(Math.random() * 0xffffff).toString(16)})
+      }
+      setChartData(chartdata);
     };
+    getUserOrderData();
+  };
+  // 주문 취소 요청
+  const requestCancelOrder = async (orderNum) => {
+    const respond = await axios.post("/info/cancelOrder", {data: {orderId : orderNum}});
+    console.log(respond);
+  }
 
+  // 주문상태 영어 -> 한글 변환
+  const engToKor = (eng) =>{
+    if (eng === "request") {
+      return ('주문 요청');
+    } else if (eng === "accept") {
+      return ('주문 확인 됨');
+    } else if (eng === "fixedDate") {
+      return ('배송 날짜 확정');
+    } else if (eng === "delivered") {
+      return ('배송 완료');
+    } else if (eng === "canceled"){
+      return ('취소됨');
+    }
+  };
+
+  // modal
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  const handleModalConfirm = (orderNumber) => {
+    requestCancelOrder(orderNumber)
+    setModalOpen(false);
+  }
+
+  useEffect(() => {
     getProfileInfo();
-  }, []);
+  }, [modalOpen]);
 
   return (
     <main id="profile_section">
@@ -106,6 +137,7 @@ const Profile = () => {
             <Col className="border rounded shadow p-5 m-2">
               <h4>{userName}님의 주문현황</h4>
               <hr />
+              <h6><mark>주문상태 = <strong>주문 요청</strong></mark>인 건에 한해서 주문 취소 가능</h6>
               <Table bordered responsive>
                 <thead>
                   <tr>
@@ -141,15 +173,26 @@ const Profile = () => {
                           })}
                         </td>
                         <td>{data.orderdate}</td>
-                        <td>{data.status}</td>
+                        <td>{engToKor(data.status)}
+                        {data.status === "request" ? (
+                          <Button size="sm" variant="dark" onClick={() => {
+                            setModalOpen(true);
+                            setCancelOrderId(data.orderNumber);
+                            }}>
+                            주문취소
+                          </Button>
+                        ) : (
+                          ""
+                        ) }
+                        </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </Table>
               {userOrder.length > 3 ? (
-                <Button variant="dark" onClick={() => setMoreView(!moreView)}>
-                  더보기
+                <Button variant="warning" onClick={() => setMoreView(!moreView)}>
+                  {moreView ? "닫기" : "더보기"}
                 </Button>
               ) : (
                 ""
@@ -158,6 +201,23 @@ const Profile = () => {
           </Row>
         </Container>
       </section>
+      {/* modal */}
+      <Modal centered show={modalOpen} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>😭 주문 취소</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>정말 주문 취소하시겠습니까?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleModalClose}>
+            아니요.
+          </Button>
+          <Button variant="dark" onClick={() => handleModalConfirm(cancelOrderId)}>
+            네, 취소해주세요.
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </main>
   );
 };
