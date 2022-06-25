@@ -138,7 +138,7 @@ const Profile = () => {
               <h4>{userName}님의 주문현황</h4>
               <hr />
               <h6><mark>주문상태 = <strong>주문 요청</strong></mark>인 건에 한해서 주문 취소 가능</h6>
-              <Table bordered responsive>
+              <Table bordered responsive className="align-middle font-0-8">
                 <thead>
                   <tr>
                     <th>제품</th>
@@ -173,7 +173,7 @@ const Profile = () => {
                           })}
                         </td>
                         <td>{data.orderdate}</td>
-                        <td>{engToKor(data.status)}
+                        <td><strong>{engToKor(data.status)}</strong>
                         {data.status === "request" ? (
                           <Button size="sm" variant="dark" onClick={() => {
                             setModalOpen(true);
@@ -191,7 +191,7 @@ const Profile = () => {
                 </tbody>
               </Table>
               {userOrder.length > 3 ? (
-                <Button variant="warning" onClick={() => setMoreView(!moreView)}>
+                <Button variant={moreView ? "secondary" : "warning"} onClick={() => setMoreView(!moreView)}>
                   {moreView ? "닫기" : "더보기"}
                 </Button>
               ) : (
