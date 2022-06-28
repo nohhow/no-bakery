@@ -11,7 +11,7 @@ const ManageUser = ({ userList, setUserList }) => {
   const handleRowClick = (id) => {
     const userInfos = userList.filter((user) => user.kakaoid === id);
     setSelectedUser(userInfos[0]);
-    setNewNumHeart(0);
+    setNewNumHeart(userInfos[0].heart);
     setModalOpen(true);
   };
 
