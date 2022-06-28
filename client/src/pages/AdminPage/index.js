@@ -69,7 +69,7 @@ function AdminPage() {
         <hr />
 
         {nowTab === "order" ? (
-          <ManageOrder orderList={orderList} getOrderData={getOrderData}/>
+          <ManageOrder orderList={orderList} setOrderList={setOrderList}/>
         ) : nowTab === "user" ? ( // 회원 관리 탭
           <ManageUser userList={userList}/>
         ) : (

@@ -1,19 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, ProgressBar, Table } from "react-bootstrap";
-function ManageOrder({ orderList, getOrderData }) {
+function ManageOrder({ orderList, setOrderList }) {
   // modal-status
   const [modalOpen, setModalOpen] = useState(false);
   // order-detail
   const [orderDetail, setOrderDetail] = useState({});
 
   // modal 데이터 임시 저장 변수
-  const [tempStatus, setTempStatus] = useState("");
-
-  useEffect(() => {
-    getOrderData();
-  }, [modalOpen])
-  
+  const [tempStatus, setTempStatus] = useState("");  
 
   const handleRowClick = (orderNum) => {
     const orderDetails = orderList.filter(
@@ -28,6 +23,12 @@ function ManageOrder({ orderList, getOrderData }) {
     setTempStatus("");
   };
 
+  // OrderList 최신화 
+  const getOrderData = async () => {
+    const allOrderData = await axios.get(`info/all-order-data`);
+    setOrderList(allOrderData.data.list);
+  };
+
   const handleModalSave = () => {
     // 주문상태 변경 요청(저장)
     updateOrderStatus(orderDetail.orderNumber, tempStatus);
@@ -39,6 +40,11 @@ function ManageOrder({ orderList, getOrderData }) {
       data: { orderNumber: orderId, new_status: status },
     });
     console.log("주문 현황 변경 요청 결과 : ", result);
+
+    // 주문 현황 변경이 성공적으로 수행되면 새롭게 OrderData를 받아와 반영한다.
+    if (result.data.code === "success"){
+        getOrderData();
+    }
   };
 
   const setProgressBar = (step) => {
