@@ -27,7 +27,7 @@ router.post("/register", (req, res) => {
   const userInfo = req.body.data;
 
   db.query(
-    `INSERT INTO user (nickname, email, kakaoid, heart) VALUES ('${userInfo.name}', '${userInfo.email}', '${userInfo.id}', 10)`,
+    `INSERT INTO user (nickname, email, kakaoid, heart) VALUES ('${userInfo.name}', '${userInfo.email}', '${userInfo.id}', 0)`,
     (err, data) => {
       if (!err) res.send({ status: "good" });
       else res.send(err);
@@ -156,6 +156,15 @@ router.post("/cancelOrder", (req, res) => {
 router.post("/update-order-status", (req, res) => {
   const orderInfo = req.body.data;
   db.query(`UPDATE user_info.order SET status = '${orderInfo.new_status}' WHERE orderNumber = '${orderInfo.orderNumber}'`, (err, data) => {
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
+// Admin의 회원 정보 변경 요청
+router.post("/update-user-info", (req, res)=> {
+  const userInfo = req.body.data;
+  db.query(`UPDATE user_info.user SET heart = ${userInfo.heartNum} WHERE kakaoid = '${userInfo.id}'`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
