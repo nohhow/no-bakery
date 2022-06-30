@@ -220,6 +220,7 @@ function ManageOrder({ orderList, setOrderList }) {
                     <div>
                       <input
                         type="date"
+                        className="mb-3"
                         onChange = {(e)=>handleDeliveryDate(e.target.value)}
                       />{" "}
                       <Button
