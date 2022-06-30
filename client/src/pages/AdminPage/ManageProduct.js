@@ -22,7 +22,7 @@ function ManageProduct({ itemList, setItemList }) {
     setItemId(0);
     setItemName("");
     setItemSub("");
-    setItemCategory("");
+    setItemCategory("bread");
     setItemPrice(0);
     setModalOpen(true);
   };
@@ -105,6 +105,8 @@ function ManageProduct({ itemList, setItemList }) {
       if (result.data.code === "success") {
         getItemData();
       }
+
+      setModalOpen(false);
   }
 
   return (
@@ -149,7 +151,7 @@ function ManageProduct({ itemList, setItemList }) {
       {/* modal */}
       <Modal show={modalOpen} onHide={handleModalClose} size="lg">
         <Modal.Header>
-          <Modal.Title>{itemName}</Modal.Title>
+          <Modal.Title>제품 정보</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
