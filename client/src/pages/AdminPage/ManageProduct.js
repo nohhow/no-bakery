@@ -5,13 +5,30 @@ import { Table, Modal, Button, Form } from "react-bootstrap";
 function ManageProduct({ itemList, setItemList }) {
   // modal-status
   const [modalOpen, setModalOpen] = useState(false);
+
+  // 등록 or 수정
+  const [isRegister, setIsRegister] = useState(false);
+
+  // productInfo
   const [itemId, setItemId] = useState();
   const [itemName, setItemName] = useState();
   const [itemSub, setItemSub] = useState();
   const [itemCategory, setItemCategory] = useState();
   const [itemPrice, setItemPrice] = useState();
 
+  // 제품 등록
+  const handleAddItemClick = () => {
+    setIsRegister(true);
+    setItemId(0);
+    setItemName("");
+    setItemSub("");
+    setItemCategory("");
+    setItemPrice(0);
+    setModalOpen(true);
+  };
+
   const handleRowClick = (id) => {
+    setIsRegister(false);
     const itemInfo = itemList.filter((item) => item.id === id);
     setItemId(itemInfo[0].id);
     setItemName(itemInfo[0].name);
@@ -50,26 +67,52 @@ function ManageProduct({ itemList, setItemList }) {
   const getItemData = async () => {
     const allItemData = await axios.get(`info/products`);
     setItemList(allItemData.data.db);
-  }
+  };
 
+  // 제품 정보 update
   const updateItemList = async () => {
     const result = await axios.post(`info/update-products-info`, {
-      data: { id: itemId, name: itemName, sub:itemSub, category:itemCategory, price:itemPrice },
+      data: {
+        id: itemId,
+        name: itemName,
+        sub: itemSub,
+        category: itemCategory,
+        price: itemPrice,
+      },
     });
     console.log("제품 정보 변경 요청 결과 : ", result);
 
     // 제품 정보 변경이 성공적으로 수행되면 새롭게 itemData를 받아와 반영한다.
     if (result.data.code === "success") {
-        getItemData();
+      getItemData();
     }
   };
+
+  // 제품 등록
+  const handleRegister = async () => {
+    const result = await axios.post(`info/add-products-info`, {
+        data: {
+          id: itemId,
+          name: itemName,
+          sub: itemSub,
+          category: itemCategory,
+          price: itemPrice,
+        },
+      });
+      console.log("제품 정보 등록 요청 결과 : ", result);
+  
+      // 제품 정보 변경이 성공적으로 수행되면 새롭게 itemData를 받아와 반영한다.
+      if (result.data.code === "success") {
+        getItemData();
+      }
+  }
 
   return (
     <section>
       <Button
         variant="warning"
         className="my-3"
-        onClick={() => console.log("제품 등록")}
+        onClick={() => handleAddItemClick()}
       >
         제품 등록
       </Button>
@@ -162,9 +205,15 @@ function ManageProduct({ itemList, setItemList }) {
           <Button variant="secondary" onClick={handleModalClose}>
             닫기
           </Button>
-          <Button variant="primary" onClick={handleModalSave}>
-            저장 후 닫기
-          </Button>
+          {isRegister ? (
+            <Button variant="primary" onClick={handleRegister}>
+              등록하기
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={handleModalSave}>
+              저장 후 닫기
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </section>

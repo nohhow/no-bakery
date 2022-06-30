@@ -179,6 +179,15 @@ router.post("/update-products-info", (req, res)=> {
   })
 })
 
+// Admin의 제품 등록 요청
+router.post("/add-products-info", (req, res) => {
+  const itemInfo = req.body.data;
+  db.query(`INSERT INTO user_info.products (id, name, sub, category, price, img) VALUES ('${itemInfo.id}','${itemInfo.name}','${itemInfo.sub}','${itemInfo.category}',${itemInfo.price}, 'http://localhost:3001/img/beverage/americano.jpg')`, (err, data) => {
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
 // 해당 아이템 정보 조회
 router.get("/:itemid", (req, res) => {
   const itemId = parseInt(req.params.itemid, 10);
