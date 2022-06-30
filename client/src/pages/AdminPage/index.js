@@ -89,7 +89,7 @@ function AdminPage() {
         ) : nowTab === "user" ? ( // 회원 관리 탭
           <ManageUser userList={userList} setUserList={setUserList}/>
         ) : nowTab === "product" ? (
-          <ManageProduct itemList={itemList}/>
+          <ManageProduct itemList={itemList} setItemList={setItemList}/>
         ) : ("")}
       </main>
     );

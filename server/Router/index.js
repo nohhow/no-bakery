@@ -170,7 +170,16 @@ router.post("/update-user-info", (req, res)=> {
   })
 })
 
-// 해당 아이템 정보 반환
+// Admin의 제품 정보 변경 요청
+router.post("/update-products-info", (req, res)=> {
+  const itemInfo = req.body.data;
+  db.query(`UPDATE user_info.products SET name = '${itemInfo.name}', sub = '${itemInfo.sub}', category='${itemInfo.category}', price=${itemInfo.price} WHERE id = ${itemInfo.id}`, (err, data) => {
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
+// 해당 아이템 정보 조회
 router.get("/:itemid", (req, res) => {
   const itemId = parseInt(req.params.itemid, 10);
 

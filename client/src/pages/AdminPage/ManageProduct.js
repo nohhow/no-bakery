@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Table, Modal, Button, Form } from "react-bootstrap";
 
-function ManageProduct({ itemList }) {
+function ManageProduct({ itemList, setItemList }) {
   // modal-status
   const [modalOpen, setModalOpen] = useState(false);
   const [itemId, setItemId] = useState();
@@ -23,11 +24,12 @@ function ManageProduct({ itemList }) {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
   const handleModalSave = () => {
+    updateItemList();
     setModalOpen(false);
   };
 
+  // inputs
   const handleId = (value) => {
     setItemId(value);
   };
@@ -42,6 +44,24 @@ function ManageProduct({ itemList }) {
   };
   const handlePrice = (value) => {
     setItemPrice(value);
+  };
+
+  // itemList 최신화
+  const getItemData = async () => {
+    const allItemData = await axios.get(`info/products`);
+    setItemList(allItemData.data.db);
+  }
+
+  const updateItemList = async () => {
+    const result = await axios.post(`info/update-products-info`, {
+      data: { id: itemId, name: itemName, sub:itemSub, category:itemCategory, price:itemPrice },
+    });
+    console.log("제품 정보 변경 요청 결과 : ", result);
+
+    // 제품 정보 변경이 성공적으로 수행되면 새롭게 itemData를 받아와 반영한다.
+    if (result.data.code === "success") {
+        getItemData();
+    }
   };
 
   return (
@@ -92,22 +112,37 @@ function ManageProduct({ itemList }) {
           <Form>
             <Form.Group className="mb-3" controlId="formId">
               <Form.Label>제품 번호</Form.Label>
-              <Form.Control type="text" onChange={(e)=>handleId(e.target.value)} value={itemId} />
+              <Form.Control
+                type="text"
+                onChange={(e) => handleId(e.target.value)}
+                value={itemId}
+              />
               <Form.Text className="text-muted">
                 빵, 디저트류는 100미만, 음료는 100이상
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formName">
               <Form.Label>제품명</Form.Label>
-              <Form.Control type="text" onChange={(e)=>handleName(e.target.value)} value={itemName} />
+              <Form.Control
+                type="text"
+                onChange={(e) => handleName(e.target.value)}
+                value={itemName}
+              />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formSub">
               <Form.Label>간단설명</Form.Label>
-              <Form.Control type="text" onChange={(e)=>handleSub(e.target.value)} value={itemSub} />
+              <Form.Control
+                type="text"
+                onChange={(e) => handleSub(e.target.value)}
+                value={itemSub}
+              />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formCategory">
               <Form.Label>카테고리</Form.Label>
-              <Form.Select onChange={(e) => handleCategory(e.target.value)} defaultValue={itemCategory}>
+              <Form.Select
+                onChange={(e) => handleCategory(e.target.value)}
+                defaultValue={itemCategory}
+              >
                 <option value={"bread"}>bread</option>
                 <option value={"dessert"}>dessert</option>
                 <option value={"drink"}>drink</option>
@@ -115,7 +150,11 @@ function ManageProduct({ itemList }) {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formPrice">
               <Form.Label>가격</Form.Label>
-              <Form.Control type="text" onChange={(e)=>handlePrice(e.target.value)} value={itemPrice} />
+              <Form.Control
+                type="text"
+                onChange={(e) => handlePrice(e.target.value)}
+                value={itemPrice}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
