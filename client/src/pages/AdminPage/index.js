@@ -12,7 +12,6 @@ function AdminPage() {
   // tab bar
   const [nowTab, setNowTab] = useState("order");
 
-
   const getCheckAdmin = async () => {
     const userData = await axios.post("/info/check-admin", {
       data: { id: localStorage.getItem("id") },
@@ -30,7 +29,6 @@ function AdminPage() {
     setOrderList(allOrderData.data.list);
   };
 
-  // Modal이 close될 때 변경된 정보가 반영될 수 있도록 함
   useEffect(() => {
     getCheckAdmin();
     getUserData();
@@ -40,6 +38,8 @@ function AdminPage() {
   const handleTabClick = (event) => {
     setNowTab(event.id);
   };
+
+
 
   if (userEmail === "xksrma97@gmail.com") {
     return (

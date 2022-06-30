@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Modal, ProgressBar, Table } from "react-bootstrap";
+import emailjs from "@emailjs/browser";
+
 function ManageOrder({ orderList, setOrderList }) {
   // modal-status
   const [modalOpen, setModalOpen] = useState(false);
@@ -8,12 +10,27 @@ function ManageOrder({ orderList, setOrderList }) {
   const [orderDetail, setOrderDetail] = useState({});
 
   // modal 데이터 임시 저장 변수
-  const [tempStatus, setTempStatus] = useState("");  
+  const [tempStatus, setTempStatus] = useState("");
+
+  // email template params
+  const [templateParams, setTemplateParams] = useState({});
+
+  // emailJS keys
+  const emailjs_api = process.env.REACT_APP_EMAILJS_API;
+  const emailjs_service_id = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+  const emailjs_template_id = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
 
   const handleRowClick = (orderNum) => {
     const orderDetails = orderList.filter(
       (order) => order.orderNumber === orderNum
     );
+    const params = {
+      to_name: orderDetails[0].username,
+      to_email: orderDetails[0].userEmail,
+      from_name: "NO-BAKERY",
+      message: "",
+    };
+    setTemplateParams(params);
     setOrderDetail(orderDetails[0]);
     setModalOpen(true);
   };
@@ -23,7 +40,7 @@ function ManageOrder({ orderList, setOrderList }) {
     setTempStatus("");
   };
 
-  // OrderList 최신화 
+  // OrderList 최신화
   const getOrderData = async () => {
     const allOrderData = await axios.get(`info/all-order-data`);
     setOrderList(allOrderData.data.list);
@@ -42,10 +59,36 @@ function ManageOrder({ orderList, setOrderList }) {
     console.log("주문 현황 변경 요청 결과 : ", result);
 
     // 주문 현황 변경이 성공적으로 수행되면 새롭게 OrderData를 받아와 반영한다.
-    if (result.data.code === "success"){
-        getOrderData();
+    if (result.data.code === "success") {
+      getOrderData();
     }
   };
+
+  const handleMailSend = () => {
+    emailjs
+      .send(
+        emailjs_service_id,
+        emailjs_template_id,
+        templateParams,
+        emailjs_api
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          alert("⭕️ 메일 전송 완료");
+        },
+        (err) => {
+          console.log("FAILED...", err);
+          alert("❌ 메일 전송 실패!")
+        }
+      );
+  };
+
+  const handleDeliveryDate = (date) => {
+    const new_templateParams = {...templateParams};
+    new_templateParams.message = date.toString();
+    setTemplateParams(new_templateParams)
+  }
 
   const setProgressBar = (step) => {
     let percentage = 0;
@@ -174,13 +217,25 @@ function ManageOrder({ orderList, setOrderList }) {
                 </td>
                 <td>
                   {orderDetail.status === "accept" ? (
-                    <Button
-                      variant="dark"
-                      onClick={() => setTempStatus("fixedDate")}
-                      disabled={tempStatus === "fixedDate" ? true : false}
-                    >
-                      진행
-                    </Button>
+                    <div>
+                      <input
+                        type="date"
+                        onChange = {(e)=>handleDeliveryDate(e.target.value)}
+                      />{" "}
+                      <Button
+                        variant="primary"
+                        onClick={() => handleMailSend()}
+                      >
+                        메일 전송
+                      </Button>
+                      <Button
+                        variant="dark"
+                        onClick={() => setTempStatus("fixedDate")}
+                        disabled={tempStatus === "fixedDate" ? true : false}
+                      >
+                        진행
+                      </Button>
+                    </div>
                   ) : orderDetail.status === "delivered" ||
                     orderDetail.status === "fixedDate" ? (
                     "✔️"
