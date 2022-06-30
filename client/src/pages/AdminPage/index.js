@@ -4,11 +4,14 @@ import { Nav } from "react-bootstrap";
 import onlyAdmin from "../../images/onlyAdmin.jpeg";
 import ManageOrder from "./ManageOrder";
 import ManageUser from "./ManageUser";
+import ManageProduct from "./ManageProduct";
 
 function AdminPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userList, setUserList] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [itemList, setItemList] = useState([]);
+
   // tab bar
   const [nowTab, setNowTab] = useState("order");
 
@@ -29,17 +32,21 @@ function AdminPage() {
     setOrderList(allOrderData.data.list);
   };
 
+  const getItemData = async () => {
+    const allItemData = await axios.get(`info/products`);
+    setItemList(allItemData.data.db);
+  }
+
   useEffect(() => {
     getCheckAdmin();
     getUserData();
     getOrderData();
+    getItemData();
   }, []);
 
   const handleTabClick = (event) => {
     setNowTab(event.id);
   };
-
-
 
   if (userEmail === "xksrma97@gmail.com") {
     return (
@@ -65,6 +72,15 @@ function AdminPage() {
               회원 관리
             </Nav.Link>
           </Nav.Item>
+          <Nav.Item as="li">
+            <Nav.Link
+              id="product"
+              className={nowTab === "product" ? "active" : ""}
+              onClick={(e) => handleTabClick(e.target)}
+            >
+              제품 관리
+            </Nav.Link>
+          </Nav.Item>
         </Nav>
         <hr />
 
@@ -72,9 +88,9 @@ function AdminPage() {
           <ManageOrder orderList={orderList} setOrderList={setOrderList}/>
         ) : nowTab === "user" ? ( // 회원 관리 탭
           <ManageUser userList={userList} setUserList={setUserList}/>
-        ) : (
-          ""
-        )}
+        ) : nowTab === "product" ? (
+          <ManageProduct itemList={itemList}/>
+        ) : ("")}
       </main>
     );
   } else if (userEmail === "") {

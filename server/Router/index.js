@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
 
-// 모든 제품 정보 반환
+// 모든 제품 정보 조회
 router.get("/products", (req, res) => {
   db.query("SELECT * FROM products", (err, data) => {
     if (!err) res.send({ db: data });
