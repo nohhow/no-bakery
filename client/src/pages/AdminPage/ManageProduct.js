@@ -227,7 +227,7 @@ function ManageProduct({ itemList, setItemList }) {
               >
                 <option value={"bread"}>bread</option>
                 <option value={"dessert"}>dessert</option>
-                <option value={"drink"}>drink</option>
+                <option value={"beverage"}>beverage</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formPrice">
