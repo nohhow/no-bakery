@@ -15,6 +15,16 @@ function ManageProduct({ itemList, setItemList }) {
   const [itemSub, setItemSub] = useState();
   const [itemCategory, setItemCategory] = useState();
   const [itemPrice, setItemPrice] = useState();
+  const [itemImg, setItemImg] = useState("");
+
+  // content = front-data, uploadedImg = respond from back
+  const [imgContent, setImgContent] = useState("");
+  const [uploadedImg, setUploadedImg] = useState({
+    fileName: "",
+    filePath: "",
+  });
+
+  const BASE_URL = "http://localhost:3001";
 
   // 제품 등록
   const handleAddItemClick = () => {
@@ -24,6 +34,7 @@ function ManageProduct({ itemList, setItemList }) {
     setItemSub("");
     setItemCategory("bread");
     setItemPrice(0);
+    setItemImg("");
     setModalOpen(true);
   };
 
@@ -35,14 +46,17 @@ function ManageProduct({ itemList, setItemList }) {
     setItemSub(itemInfo[0].sub);
     setItemCategory(itemInfo[0].category);
     setItemPrice(itemInfo[0].price);
+    setItemImg(itemInfo[0].img);
     setModalOpen(true);
   };
 
   const handleModalClose = () => {
+    setUploadedImg({ fileName: "", filePath: "" });
     setModalOpen(false);
   };
   const handleModalSave = () => {
     updateItemList();
+    setUploadedImg({ fileName: "", filePath: "" });
     setModalOpen(false);
   };
 
@@ -63,6 +77,27 @@ function ManageProduct({ itemList, setItemList }) {
     setItemPrice(value);
   };
 
+  const handleFile = (file) => {
+    setImgContent(file);
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append("img", imgContent);
+    axios
+      .post("/info/img-upload", formData)
+      .then((res) => {
+        const { fileName } = res.data;
+        console.log(fileName);
+        setUploadedImg({ fileName, filePath: `${BASE_URL}/img/${fileName}` });
+        setItemImg(`${BASE_URL}/img/${fileName}`);
+        alert("The file is successfully uploaded");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   // itemList 최신화
   const getItemData = async () => {
     const allItemData = await axios.get(`info/products`);
@@ -78,6 +113,7 @@ function ManageProduct({ itemList, setItemList }) {
         sub: itemSub,
         category: itemCategory,
         price: itemPrice,
+        img: itemImg,
       },
     });
     console.log("제품 정보 변경 요청 결과 : ", result);
@@ -91,23 +127,23 @@ function ManageProduct({ itemList, setItemList }) {
   // 제품 등록
   const handleRegister = async () => {
     const result = await axios.post(`info/add-products-info`, {
-        data: {
-          id: itemId,
-          name: itemName,
-          sub: itemSub,
-          category: itemCategory,
-          price: itemPrice,
-        },
-      });
-      console.log("제품 정보 등록 요청 결과 : ", result);
-  
-      // 제품 정보 변경이 성공적으로 수행되면 새롭게 itemData를 받아와 반영한다.
-      if (result.data.code === "success") {
-        getItemData();
-      }
+      data: {
+        id: itemId,
+        name: itemName,
+        sub: itemSub,
+        category: itemCategory,
+        price: itemPrice,
+        img: itemImg,
+      },
+    });
+    console.log("제품 정보 등록 요청 결과 : ", result);
 
-      setModalOpen(false);
-  }
+    // 제품 정보 변경이 성공적으로 수행되면 새롭게 itemData를 받아와 반영한다.
+    if (result.data.code === "success") {
+      getItemData();
+    }
+    setModalOpen(false);
+  };
 
   return (
     <section>
@@ -154,6 +190,7 @@ function ManageProduct({ itemList, setItemList }) {
           <Modal.Title>제품 정보</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <img src={itemImg} alt="제품사진" width={100} />
           <Form>
             <Form.Group className="mb-3" controlId="formId">
               <Form.Label>제품 번호</Form.Label>
@@ -200,6 +237,24 @@ function ManageProduct({ itemList, setItemList }) {
                 onChange={(e) => handlePrice(e.target.value)}
                 value={itemPrice}
               />
+            </Form.Group>
+            {uploadedImg ? (
+              <>
+                <img src={uploadedImg.filePath} alt="" />
+                <h3>{uploadedImg.fileName}</h3>
+              </>
+            ) : (
+              ""
+            )}
+            <Form.Group controlId="form-group-id">
+              <Form.Control
+                type="file"
+                name="img"
+                onChange={(e) => handleFile(e.target.files[0])}
+              />
+              <Button variant="primary" onClick={() => handleUpload()}>
+                upload
+              </Button>
             </Form.Group>
           </Form>
         </Modal.Body>

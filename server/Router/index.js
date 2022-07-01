@@ -1,6 +1,9 @@
 const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+process.setMaxListeners(15);
 
 // 모든 제품 정보 조회
 router.get("/products", (req, res) => {
@@ -173,7 +176,7 @@ router.post("/update-user-info", (req, res)=> {
 // Admin의 제품 정보 변경 요청
 router.post("/update-products-info", (req, res)=> {
   const itemInfo = req.body.data;
-  db.query(`UPDATE user_info.products SET name = '${itemInfo.name}', sub = '${itemInfo.sub}', category='${itemInfo.category}', price=${itemInfo.price} WHERE id = ${itemInfo.id}`, (err, data) => {
+  db.query(`UPDATE user_info.products SET name = '${itemInfo.name}', sub = '${itemInfo.sub}', category='${itemInfo.category}', price=${itemInfo.price}, img='${itemInfo.img}' WHERE id = ${itemInfo.id}`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -182,16 +185,38 @@ router.post("/update-products-info", (req, res)=> {
 // Admin의 제품 등록 요청
 router.post("/add-products-info", (req, res) => {
   const itemInfo = req.body.data;
-  db.query(`INSERT INTO user_info.products (id, name, sub, category, price, img) VALUES ('${itemInfo.id}','${itemInfo.name}','${itemInfo.sub}','${itemInfo.category}',${itemInfo.price}, 'http://localhost:3001/img/beverage/americano.jpg')`, (err, data) => {
+  db.query(`INSERT INTO user_info.products (id, name, sub, category, price, img) VALUES ('${itemInfo.id}','${itemInfo.name}','${itemInfo.sub}','${itemInfo.category}',${itemInfo.price}, '${itemInfo.img}')`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
 })
 
+// multer Storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, __dirname.replace('Router', "")+ "public/img");
+  },
+  filename: function (req, file, callback) {
+    callback(null, "imgfile" + Date.now() + path.extname(file.originalname));
+  },
+});
+console.log(__dirname.replace('Router', ""));
+// 업로드 옵션
+const upload = multer({
+  storage: storage,
+  // limits: { fileSize: 1000000 },
+});
+
+router.post("/img-upload", upload.single("img"), function (req, res, next) {
+  console.log(req.file);
+  res.send({
+    fileName: req.file.filename,
+  });
+});
+
 // 해당 아이템 정보 조회
 router.get("/:itemid", (req, res) => {
   const itemId = parseInt(req.params.itemid, 10);
-
   db.query(`SELECT * FROM products WHERE id = ${itemId}`, (err, data) => {
     if (!err) res.send({ db: data });
     else res.send(err);
