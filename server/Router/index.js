@@ -68,7 +68,7 @@ router.get("/all-user-data", (req, res)=>{
 
 // 모든 주문 조회
 router.get("/all-order-data", (req, res)=>{
-  db.query(`SELECT * FROM user_info.order`, (err, data)=>{
+  db.query(`SELECT * FROM heroku_a8b02e79530eb78.order`, (err, data)=>{
     if(!err) res.send({list : data});
     else res.send(err);
   })
@@ -78,7 +78,7 @@ router.get("/all-order-data", (req, res)=>{
 router.post("/user-order-data", (req, res)=>{
   const userName = req.body.data.username
 
-  db.query(`SELECT * FROM user_info.order WHERE username = '${userName}' ORDER BY orderdate desc`, (err, data)=>{
+  db.query(`SELECT * FROM heroku_a8b02e79530eb78.order WHERE username = '${userName}' ORDER BY orderdate desc`, (err, data)=>{
     if(!err) res.send({list : data});
     else res.send(err);
   })
@@ -131,7 +131,7 @@ router.post("/cart", (req, res) => {
 router.post("/cart-clear", (req, res) => {
   const userInfo = req.body.data;
 
-  db.query(`DELETE FROM user_info.cart WHERE kakaoid = '${userInfo.id}'`, (err, data)=>{
+  db.query(`DELETE FROM heroku_a8b02e79530eb78.cart WHERE kakaoid = '${userInfo.id}'`, (err, data)=>{
     if (!err) res.send({ code : "success"});
     else res.send(err);
   })
@@ -140,7 +140,7 @@ router.post("/cart-clear", (req, res) => {
 // 주문 요청 저장
 router.post("/order", (req, res) => {
   const orderInfo = req.body.data;
-  db.query(`INSERT INTO user_info.order (username, userEmail, itemList, quantityList, price, orderdate, status) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT, 'request')`, (err, data) =>{
+  db.query(`INSERT INTO heroku_a8b02e79530eb78.order (username, userEmail, itemList, quantityList, price, orderdate, status) VALUES ('${orderInfo.userName}', '${orderInfo.email}', '${orderInfo.itemList}', '${orderInfo.quantityList}', '${orderInfo.price}', DEFAULT, 'request')`, (err, data) =>{
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -149,7 +149,7 @@ router.post("/order", (req, res) => {
 // 주문 취소 요청
 router.post("/cancelOrder", (req, res) => {
   const orderInfo = req.body.data;
-  db.query(`UPDATE user_info.order SET status = 'canceled' WHERE orderNumber = '${orderInfo.orderId}'`, (err, data) => {
+  db.query(`UPDATE heroku_a8b02e79530eb78.order SET status = 'canceled' WHERE orderNumber = '${orderInfo.orderId}'`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -158,7 +158,7 @@ router.post("/cancelOrder", (req, res) => {
 // Admin의 주문 현황 변경 요청
 router.post("/update-order-status", (req, res) => {
   const orderInfo = req.body.data;
-  db.query(`UPDATE user_info.order SET status = '${orderInfo.new_status}' WHERE orderNumber = '${orderInfo.orderNumber}'`, (err, data) => {
+  db.query(`UPDATE heroku_a8b02e79530eb78.order SET status = '${orderInfo.new_status}' WHERE orderNumber = '${orderInfo.orderNumber}'`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -167,7 +167,7 @@ router.post("/update-order-status", (req, res) => {
 // Admin의 회원 정보 변경 요청
 router.post("/update-user-info", (req, res)=> {
   const userInfo = req.body.data;
-  db.query(`UPDATE user_info.user SET heart = ${userInfo.heartNum} WHERE kakaoid = '${userInfo.id}'`, (err, data) => {
+  db.query(`UPDATE heroku_a8b02e79530eb78.user SET heart = ${userInfo.heartNum} WHERE kakaoid = '${userInfo.id}'`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -176,7 +176,7 @@ router.post("/update-user-info", (req, res)=> {
 // Admin의 제품 정보 변경 요청
 router.post("/update-products-info", (req, res)=> {
   const itemInfo = req.body.data;
-  db.query(`UPDATE user_info.products SET name = '${itemInfo.name}', sub = '${itemInfo.sub}', category='${itemInfo.category}', price=${itemInfo.price}, img='${itemInfo.img}' WHERE id = ${itemInfo.id}`, (err, data) => {
+  db.query(`UPDATE heroku_a8b02e79530eb78.products SET name = '${itemInfo.name}', sub = '${itemInfo.sub}', category='${itemInfo.category}', price=${itemInfo.price}, img='${itemInfo.img}' WHERE id = ${itemInfo.id}`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
@@ -185,7 +185,7 @@ router.post("/update-products-info", (req, res)=> {
 // Admin의 제품 등록 요청
 router.post("/add-products-info", (req, res) => {
   const itemInfo = req.body.data;
-  db.query(`INSERT INTO user_info.products (id, name, sub, category, price, img) VALUES ('${itemInfo.id}','${itemInfo.name}','${itemInfo.sub}','${itemInfo.category}',${itemInfo.price}, '${itemInfo.img}')`, (err, data) => {
+  db.query(`INSERT INTO heroku_a8b02e79530eb78.products (id, name, sub, category, price, img) VALUES ('${itemInfo.id}','${itemInfo.name}','${itemInfo.sub}','${itemInfo.category}',${itemInfo.price}, '${itemInfo.img}')`, (err, data) => {
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })
