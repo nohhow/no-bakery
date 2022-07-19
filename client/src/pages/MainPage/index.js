@@ -27,7 +27,7 @@ const MainPage = () => {
     let beverages = [];
 
     async function getProductsData() {
-      const request = await axios.get(`/info/products`);
+      const request = await axios.get(`http://no-bakery.herokuapp.com/info/products`);
       const products = request.data.db;
 
       for (let x in products) {
