@@ -3,11 +3,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function(app){
   app.use(
       createProxyMiddleware('/info', {
-          target: 'http://no-bakery.herokuapp.com/',
+          target: 'http://no-bakery.herokuapp.com',
           changeOrigin: true,
-          pathRewrite: {
-            '^/info': '',
-          },
       })
   );
 };
