@@ -4,7 +4,10 @@ module.exports = function(app){
   app.use(
       createProxyMiddleware('/info', {
           target: 'http://no-bakery.herokuapp.com/',
-          changeOrigin: true
+          changeOrigin: true,
+          pathRewrite: {
+            '^/info': '',
+          },
       })
   );
 };
