@@ -1,4 +1,4 @@
 [[redirects]]
-  from = "info/*"
-  to = "http://no-bakery.herokuapp.com/:splat"
+  from = "/info/*"
+  to = "https://no-bakery.herokuapp.com/:splat"
   status = 200
