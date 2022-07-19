@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/info/*"
+  to = https://no-bakery.herokuapp.com/:splat"
+  status = 200
