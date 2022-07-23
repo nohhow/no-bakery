@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "/info/*"
-  to = "https://no-bakery.herokuapp.com/:splat"
+  from = "/*"
+  to = "index.html"
   status = 200
   force = true
 
