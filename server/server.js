@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
 const api = require("./Router/index");
+const cors = require('cors');
+
 app.use(express.json());
+app.use(cors());
 
 // 라우팅
 app.use("/info", api);
