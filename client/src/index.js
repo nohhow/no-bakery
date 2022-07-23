@@ -6,6 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import axios from "axios"
+
+axios.defaults.baseURL = 'https://no-bakery.herokuapp.com/';
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
