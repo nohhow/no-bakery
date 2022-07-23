@@ -23,17 +23,17 @@ function AdminPage() {
   };
 
   const getUserData = async () => {
-    const allUserData = await axios.get(`info/all-user-data`);
+    const allUserData = await axios.get(`/info/all-user-data`);
     setUserList(allUserData.data.list);
   };
 
   const getOrderData = async () => {
-    const allOrderData = await axios.get(`info/all-order-data`);
+    const allOrderData = await axios.get(`/info/all-order-data`);
     setOrderList(allOrderData.data.list);
   };
 
   const getItemData = async () => {
-    const allItemData = await axios.get(`info/products`);
+    const allItemData = await axios.get(`/info/products`);
     setItemList(allItemData.data.db);
   }
 

@@ -100,13 +100,13 @@ function ManageProduct({ itemList, setItemList }) {
 
   // itemList 최신화
   const getItemData = async () => {
-    const allItemData = await axios.get(`info/products`);
+    const allItemData = await axios.get(`/info/products`);
     setItemList(allItemData.data.db);
   };
 
   // 제품 정보 update
   const updateItemList = async () => {
-    const result = await axios.post(`info/update-products-info`, {
+    const result = await axios.post(`/info/update-products-info`, {
       data: {
         id: itemId,
         name: itemName,
@@ -126,7 +126,7 @@ function ManageProduct({ itemList, setItemList }) {
 
   // 제품 등록
   const handleRegister = async () => {
-    const result = await axios.post(`info/add-products-info`, {
+    const result = await axios.post(`/info/add-products-info`, {
       data: {
         id: itemId,
         name: itemName,

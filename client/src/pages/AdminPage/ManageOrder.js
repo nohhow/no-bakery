@@ -42,7 +42,7 @@ function ManageOrder({ orderList, setOrderList }) {
 
   // OrderList 최신화
   const getOrderData = async () => {
-    const allOrderData = await axios.get(`info/all-order-data`);
+    const allOrderData = await axios.get(`/info/all-order-data`);
     setOrderList(allOrderData.data.list);
   };
 
@@ -53,7 +53,7 @@ function ManageOrder({ orderList, setOrderList }) {
   };
 
   const updateOrderStatus = async (orderId, status) => {
-    const result = await axios.post(`info/update-order-status`, {
+    const result = await axios.post(`/info/update-order-status`, {
       data: { orderNumber: orderId, new_status: status },
     });
     console.log("주문 현황 변경 요청 결과 : ", result);

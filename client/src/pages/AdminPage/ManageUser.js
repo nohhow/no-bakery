@@ -31,12 +31,12 @@ const ManageUser = ({ userList, setUserList }) => {
 
   // UserList 최신화
   const getUserData = async () => {
-    const allUserData = await axios.get(`info/all-user-data`);
+    const allUserData = await axios.get(`/info/all-user-data`);
     setUserList(allUserData.data.list);
   };
 
   const updateOrderStatus = async (userId, num) => {
-    const result = await axios.post(`info/update-user-info`, {
+    const result = await axios.post(`/info/update-user-info`, {
       data: { id: userId, heartNum: num },
     });
     console.log("회원 정보 변경 요청 결과 : ", result);
