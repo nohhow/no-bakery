@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_API;
-  const REDIRECT_URI = "https://resplendent-peony-82a1f7.netlify.app/oauth/kakao/callback";
+  const REDIRECT_URI = "https://nobakery.xyz/oauth/kakao/callback";
   const CLIENT_SECRET = process.env.REACT_APP_CLIENT_CODE;
   
   // calllback으로 받은 인가코드
