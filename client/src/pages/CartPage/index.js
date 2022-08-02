@@ -69,8 +69,7 @@ function CartPage() {
       // sql문이 정상 동작했을 때(=주문 성공)
       if (requestResult.data.code === "success") {
         axios.post(`/info/cart-clear`, { data: { id: userId } });
-        const request = axios.post(`/info/order/paid`, { data : {userId:userId, price:totalPrice }})
-        console.log(request);
+        axios.post(`/info/order/paid`, { data : {userId:userId, price:totalPrice }})
         navigate("/order-complete");
       }
     } else {

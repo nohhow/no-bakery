@@ -14,7 +14,6 @@ function InfoPage() {
   useEffect(() => {
     async function getProductsData() {
       const request = await axios.get(`/info/products`);
-      console.log(request);
       setProducts(request.data.db)
     }
     getProductsData();
