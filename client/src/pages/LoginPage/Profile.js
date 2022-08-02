@@ -77,14 +77,19 @@ const Profile = () => {
 
   // 주문 취소 요청
   const requestCancelOrder = async (orderNum) => {
-    console.log(userOrder);
     const respond = await axios.post("/info/cancelOrder", {
       data: { orderId: orderNum },
     });
     if (respond.data.code === "success") {
+      let index = 0;
+      for(let i = 0; i<userOrder.length; i++){
+        if(userOrder[i].orderNumber === orderNum){
+          index = i;
+        }
+      }
       const userId = localStorage.getItem("id");
       axios.post("/info/order/refund", {
-        data: {userId:userId, price:userOrder[orderNum].price}
+        data: {userId:userId, price:userOrder[index].price}
       })
     }
   };
