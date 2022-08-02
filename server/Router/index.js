@@ -146,10 +146,28 @@ router.post("/order", (req, res) => {
   })
 })
 
+// 하트 감소
+router.post("/order/paid", (req, res)=>{
+  const orderInfo = req.body.data;
+  db.query(`UPDATE heroku_a8b02e79530eb78.user SET heart=heart-${orderInfo.price} WHERE kakaoid = ${orderInfo.userId}`, (err, data)=>{
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
 // 주문 취소 요청
 router.post("/cancelOrder", (req, res) => {
   const orderInfo = req.body.data;
   db.query(`UPDATE heroku_a8b02e79530eb78.order SET status = 'canceled' WHERE orderNumber = '${orderInfo.orderId}'`, (err, data) => {
+    if (!err) res.send({ code: "success" });
+    else res.send(err);
+  })
+})
+
+// 하트 증가
+router.post("/order/refund", (req, res)=>{
+  const orderInfo = req.body.data;
+  db.query(`UPDATE heroku_a8b02e79530eb78.user SET heart=heart+${orderInfo.price} WHERE kakaoid = ${orderInfo.userId}`, (err, data)=>{
     if (!err) res.send({ code: "success" });
     else res.send(err);
   })

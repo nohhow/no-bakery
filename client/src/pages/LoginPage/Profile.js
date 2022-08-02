@@ -13,11 +13,13 @@ const Profile = () => {
   const [chartData, setChartData] = useState([]);
   const chartTempData = [];
   const [modalOpen, setModalOpen] = useState(false);
-  const [cancelOrderId, setCancelOrderId] = useState(0)
+  const [cancelOrderId, setCancelOrderId] = useState(0);
 
   // python의 dict.setDefault 구현
   function setDefault(obj, prop, quantity) {
-    return obj.hasOwnProperty(prop) ? obj[prop] += Number(quantity) : (obj[prop] = Number(quantity));
+    return obj.hasOwnProperty(prop)
+      ? (obj[prop] += Number(quantity))
+      : (obj[prop] = Number(quantity));
   }
 
   // 사용자 데이터 요청
@@ -39,51 +41,66 @@ const Profile = () => {
       setUserOrder(respond.data.list);
 
       // CHART DATA 초기화
-      const userOrderData = respond.data.list
-      const userOrderItems = []
-      const userOrderQuantities = []
+      const userOrderData = respond.data.list;
+      const userOrderItems = [];
+      const userOrderQuantities = [];
 
-      for(let i in userOrderData){
-        for(let j in userOrderData[i].itemList.split(",")){
-          if (userOrderData[i].itemList.split(",")[j] !== ""){
-            userOrderItems.push(userOrderData[i].itemList.split(",")[j])
-          } 
+      for (let i in userOrderData) {
+        for (let j in userOrderData[i].itemList.split(",")) {
+          if (userOrderData[i].itemList.split(",")[j] !== "") {
+            userOrderItems.push(userOrderData[i].itemList.split(",")[j]);
+          }
         }
-        for(let j in userOrderData[i].quantityList.split(",")){
-          if (userOrderData[i].quantityList.split(",")[j] !== ""){
-            userOrderQuantities.push(Number(userOrderData[i].quantityList.split(",")[j]))
+        for (let j in userOrderData[i].quantityList.split(",")) {
+          if (userOrderData[i].quantityList.split(",")[j] !== "") {
+            userOrderQuantities.push(
+              Number(userOrderData[i].quantityList.split(",")[j])
+            );
           }
         }
       }
-      for (let i in userOrderItems){
+      for (let i in userOrderItems) {
         setDefault(chartTempData, userOrderItems[i], userOrderQuantities[i]);
       }
-      const chartdata = []
-      for (let item in chartTempData){
-        chartdata.push({title : item, value : chartTempData[item], color : "#"+Math.round(Math.random() * 0xffffff).toString(16)})
+      const chartdata = [];
+      for (let item in chartTempData) {
+        chartdata.push({
+          title: item,
+          value: chartTempData[item],
+          color: "#" + Math.round(Math.random() * 0xffffff).toString(16),
+        });
       }
       setChartData(chartdata);
     };
     getUserOrderData();
   };
+
   // 주문 취소 요청
   const requestCancelOrder = async (orderNum) => {
-    const respond = await axios.post("/info/cancelOrder", {data: {orderId : orderNum}});
-    console.log(respond);
-  }
+    console.log(userOrder);
+    const respond = await axios.post("/info/cancelOrder", {
+      data: { orderId: orderNum },
+    });
+    if (respond.data.code === "success") {
+      const userId = localStorage.getItem("id");
+      axios.post("/info/order/refund", {
+        data: {userId:userId, price:userOrder[orderNum].price}
+      })
+    }
+  };
 
   // 주문상태 영어 -> 한글 변환
-  const engToKor = (eng) =>{
+  const engToKor = (eng) => {
     if (eng === "request") {
-      return ('주문 요청');
+      return "주문 요청";
     } else if (eng === "accept") {
-      return ('주문 확인 됨');
+      return "주문 확인 됨";
     } else if (eng === "fixedDate") {
-      return ('배송 날짜 확정');
+      return "배송 날짜 확정";
     } else if (eng === "delivered") {
-      return ('배송 완료');
-    } else if (eng === "canceled"){
-      return ('취소됨');
+      return "배송 완료";
+    } else if (eng === "canceled") {
+      return "취소됨";
     }
   };
 
@@ -92,9 +109,9 @@ const Profile = () => {
     setModalOpen(false);
   };
   const handleModalConfirm = (orderNumber) => {
-    requestCancelOrder(orderNumber)
+    requestCancelOrder(orderNumber);
     setModalOpen(false);
-  }
+  };
 
   useEffect(() => {
     getProfileInfo();
@@ -127,9 +144,12 @@ const Profile = () => {
                 </div>
               ) : (
                 <div>
-                  <PieChart animate
+                  <PieChart
+                    animate
                     data={chartData}
-                    label={({ dataEntry }) => dataEntry.title + " " + dataEntry.value}
+                    label={({ dataEntry }) =>
+                      dataEntry.title + " " + dataEntry.value
+                    }
                   />
                 </div>
               )}
@@ -137,7 +157,12 @@ const Profile = () => {
             <Col className="border rounded shadow p-5 m-2">
               <h4>{userName}님의 주문현황</h4>
               <hr />
-              <h6><mark>주문상태 = <strong>주문 요청</strong></mark>인 건에 한해서 주문 취소 가능</h6>
+              <h6>
+                <mark>
+                  주문상태 = <strong>주문 요청</strong>
+                </mark>
+                인 건에 한해서 주문 취소 가능
+              </h6>
               <Table bordered responsive className="align-middle font-0-8">
                 <thead>
                   <tr>
@@ -173,17 +198,22 @@ const Profile = () => {
                           })}
                         </td>
                         <td>{data.orderdate}</td>
-                        <td><strong>{engToKor(data.status)}</strong>
-                        {data.status === "request" ? (
-                          <Button size="sm" variant="dark" onClick={() => {
-                            setModalOpen(true);
-                            setCancelOrderId(data.orderNumber);
-                            }}>
-                            주문취소
-                          </Button>
-                        ) : (
-                          ""
-                        ) }
+                        <td>
+                          <strong>{engToKor(data.status)}</strong>
+                          {data.status === "request" ? (
+                            <Button
+                              size="sm"
+                              variant="dark"
+                              onClick={() => {
+                                setModalOpen(true);
+                                setCancelOrderId(data.orderNumber);
+                              }}
+                            >
+                              주문취소
+                            </Button>
+                          ) : (
+                            ""
+                          )}
                         </td>
                       </tr>
                     );
@@ -191,7 +221,10 @@ const Profile = () => {
                 </tbody>
               </Table>
               {userOrder.length > 3 ? (
-                <Button variant={moreView ? "secondary" : "warning"} onClick={() => setMoreView(!moreView)}>
+                <Button
+                  variant={moreView ? "secondary" : "warning"}
+                  onClick={() => setMoreView(!moreView)}
+                >
                   {moreView ? "닫기" : "더보기"}
                 </Button>
               ) : (
@@ -213,7 +246,10 @@ const Profile = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             아니요.
           </Button>
-          <Button variant="dark" onClick={() => handleModalConfirm(cancelOrderId)}>
+          <Button
+            variant="dark"
+            onClick={() => handleModalConfirm(cancelOrderId)}
+          >
             네, 취소해주세요.
           </Button>
         </Modal.Footer>
