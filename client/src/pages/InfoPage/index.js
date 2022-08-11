@@ -38,7 +38,7 @@ function InfoPage() {
           width="70%"
         />
       </header>
-      <article className="text-start p-5">
+      <article className="text-start p-3">
         <h1 className="text-center py-5">노 베이커리에 대해서</h1>
         <Container className="p-5 border rounded-3">
           <Row>

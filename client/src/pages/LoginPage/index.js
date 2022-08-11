@@ -11,7 +11,7 @@ function LoginPage() {
       <hr />
       <div id="login_form_container" className="mx-auto text-center">
         <a type="button" href={KAKAO_AUTH_URL}>
-          <img src={kakaoLoginLogo} alt="카카오로그인"/>
+          <img src={kakaoLoginLogo} alt="카카오로그인" width="100%"/>
         </a>
       </div>
     </main>
