@@ -109,10 +109,17 @@ footer{
 .card:hover {
   box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.5);
 }
-
-.card-img-container{
-  height: 17rem;
-  overflow: hidden;
+@media (max-width: 768px) {
+  .card-img-container{
+    height: 150px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 769px) {
+  .card-img-container{
+    height: 300px;
+    overflow: hidden;
+  }
 }
 
 /* OrderPage */

@@ -92,31 +92,31 @@ const MainPage = () => {
         <h1>이거 어때요?</h1>
         <div className="todayPick m-5">
           <Card
-            className="w-25 d-inline-block "
+            className="w-50 d-inline-block "
             onClick={() => navigate(`/${todayPick[0].id}`)}
           >
             <div className="card-img-container">
-              <Card.Img variant="top" src={todayPick[0].img} />
+              <Card.Img variant="top" height="100%" src={todayPick[0].img} />
             </div>
             <Card.Title>{todayPick[0].name}</Card.Title>
           </Card>
-          <img
+          {/* <img
             className="m-5"
             src={plusImg}
             width="25px"
             height="25px"
             alt="plus"
-          />
+          /> */}
           <Card
-            className="w-25 d-inline-block"
+            className="w-50 d-inline-block"
             onClick={() => navigate(`/${todayPick[1].id}`)}
           >
             <div className="card-img-container">
-              <Card.Img variant="top" src={todayPick[1].img} />
+              <Card.Img variant="top" height="100%" src={todayPick[1].img} />
             </div>
             <Card.Title>{todayPick[1].name}</Card.Title>
           </Card>
-          <Button className="d-block m-auto" variant="dark" onClick={() => setOtherPick(otherPick+1)}>
+          <Button className="d-block my-3 mx-auto" variant="dark" onClick={() => setOtherPick(otherPick+1)}>
             다른 조합 보기
           </Button>
         </div>
