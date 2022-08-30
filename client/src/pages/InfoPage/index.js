@@ -120,7 +120,7 @@ function InfoPage() {
         </Container>
       </article>
       <article>
-        <h1 className="text-center py-5">제품 목록</h1>
+        <h1 className="text-center py-5">이달의 추천</h1>
         <Container>
           <Row>
             {products.map((data, index) => {
